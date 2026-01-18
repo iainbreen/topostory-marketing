@@ -1,0 +1,30 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Ready to create your map?",
+  description = "Import your GPX file and create a beautiful print-ready topographical map in minutes."
+} = Astro.props;
+---
+
+<section class="py-20 bg-forest-600">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <h2 class="text-3xl sm:text-4xl font-display font-bold text-white">
+      {title}
+    </h2>
+    <p class="mt-4 text-lg text-forest-100 max-w-2xl mx-auto">
+      {description}
+    </p>
+    <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+      <a href="https://app.topostory.com" class="btn bg-white text-forest-700 hover:bg-forest-50 text-lg px-8">
+        Get Started Free
+      </a>
+      <a href="/pricing" class="btn border-2 border-white/30 text-white hover:bg-white/10 text-lg px-8">
+        View Pricing
+      </a>
+    </div>
+  </div>
+</section>

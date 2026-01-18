@@ -1,0 +1,72 @@
+---
+const styles = [
+  {
+    name: 'Classic',
+    description: 'Traditional cartographic style with warm earth tones',
+    colors: ['#f8f7f4', '#cdb99f', '#9c7156', '#6b4d40'],
+  },
+  {
+    name: 'Nordic',
+    description: 'Cool, minimalist design inspired by Scandinavian maps',
+    colors: ['#f0f4f8', '#94a3b8', '#475569', '#1e293b'],
+  },
+  {
+    name: 'Vintage',
+    description: 'Aged paper aesthetic with hand-drawn contours',
+    colors: ['#fef7e7', '#d9c4a7', '#a67c52', '#5c4033'],
+  },
+  {
+    name: 'Forest',
+    description: 'Deep greens celebrating the natural landscape',
+    colors: ['#f4f9f4', '#a3d1ac', '#4f985e', '#25412c'],
+  },
+];
+---
+
+<section class="py-20 bg-white">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl sm:text-4xl font-display font-bold text-terrain-900">
+        Eight stunning style presets
+      </h2>
+      <p class="mt-4 text-lg text-terrain-600 max-w-2xl mx-auto">
+        Choose from carefully crafted visual styles, each designed to
+        highlight the beauty of your trail in a unique way.
+      </p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {styles.map((style) => (
+        <div class="group rounded-xl border border-terrain-200 overflow-hidden hover:shadow-lg transition-shadow">
+          <div class="aspect-[3/4] relative">
+            <!-- Color gradient preview -->
+            <div class="absolute inset-0 flex flex-col">
+              {style.colors.map((color, i) => (
+                <div
+                  class="flex-1"
+                  style={`background-color: ${color}`}
+                />
+              ))}
+            </div>
+            <!-- Contour line overlay -->
+            <svg class="absolute inset-0 w-full h-full opacity-30">
+              <path d="M0 25% Q25% 20% 50% 25% T100% 25%" fill="none" stroke="currentColor" stroke-width="1" class="text-terrain-900"/>
+              <path d="M0 50% Q25% 45% 50% 50% T100% 50%" fill="none" stroke="currentColor" stroke-width="1" class="text-terrain-900"/>
+              <path d="M0 75% Q25% 70% 50% 75% T100% 75%" fill="none" stroke="currentColor" stroke-width="1" class="text-terrain-900"/>
+            </svg>
+          </div>
+          <div class="p-4 bg-white">
+            <h3 class="font-semibold text-terrain-900">{style.name}</h3>
+            <p class="text-sm text-terrain-600 mt-1">{style.description}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div class="text-center mt-12">
+      <a href="/features" class="btn btn-secondary">
+        View all styles
+      </a>
+    </div>
+  </div>
+</section>

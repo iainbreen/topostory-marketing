@@ -1,0 +1,44 @@
+---
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="bg-terrain-950 text-terrain-300 py-12">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div class="col-span-1 md:col-span-2">
+        <div class="flex items-center gap-2 mb-4">
+          <svg class="w-8 h-8 text-forest-500" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 24L10 12L16 18L22 8L28 16" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M4 28H28" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <span class="text-xl font-display font-semibold text-white">TopoStory</span>
+        </div>
+        <p class="text-terrain-400 max-w-sm">
+          Create beautiful topographical maps of your favourite trails.
+          Perfect for printing and framing.
+        </p>
+      </div>
+
+      <div>
+        <h3 class="font-semibold text-white mb-4">Product</h3>
+        <ul class="space-y-2">
+          <li><a href="/features" class="hover:text-white transition-colors">Features</a></li>
+          <li><a href="/pricing" class="hover:text-white transition-colors">Pricing</a></li>
+          <li><a href="https://app.topostory.com" class="hover:text-white transition-colors">Sign In</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="font-semibold text-white mb-4">Legal</h3>
+        <ul class="space-y-2">
+          <li><a href="/privacy" class="hover:text-white transition-colors">Privacy Policy</a></li>
+          <li><a href="/terms" class="hover:text-white transition-colors">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="border-t border-terrain-800 mt-12 pt-8 text-center text-terrain-500">
+      <p>&copy; {currentYear} TopoStory. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
