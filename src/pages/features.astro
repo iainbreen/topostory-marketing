@@ -179,7 +179,7 @@ const trails = [
 
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
           {stylePresets.map((style) => (
-            <div class="bg-terrain-50 rounded-lg p-4 text-center border border-terrain-200 hover:border-forest-300 transition-colors">
+            <div class="bg-terrain-50 rounded-lg p-4 text-center border border-terrain-200 hover:border-forest-300 transition-colors cursor-pointer" data-style-preview={style.name}>
               <div class="w-12 h-12 rounded-lg bg-terrain-200 mx-auto mb-3" />
               <h3 class="font-medium text-terrain-900">{style.name}</h3>
               <p class="text-sm text-terrain-500 mt-1">{style.description}</p>

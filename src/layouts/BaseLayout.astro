@@ -55,6 +55,51 @@ const { title, description = 'Create beautiful topographical maps of your favour
         (function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',w.intercomSettings);}else{var d=document;var i=function(){i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;var l=function(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/' + intercomAppId;var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};if(document.readyState==='complete'){l();}else if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();
       }
     </script>
+
+    <!-- PostHog Custom Event Tracking -->
+    <script is:inline>
+      document.addEventListener('DOMContentLoaded', function() {
+        if (typeof posthog === 'undefined' || !posthog.capture) return;
+
+        // Track CTA clicks (links to app.topostory.com)
+        document.querySelectorAll('a[href*="app.topostory.com"]').forEach(function(el) {
+          el.addEventListener('click', function() {
+            posthog.capture('cta_clicked', {
+              cta_text: this.textContent.trim(),
+              cta_location: this.closest('section')?.id || this.closest('header') ? 'header' : 'page',
+              destination_url: this.href,
+              page: window.location.pathname
+            });
+          });
+        });
+
+        // Track style preview card clicks
+        document.querySelectorAll('[data-style-preview]').forEach(function(el) {
+          el.addEventListener('click', function() {
+            posthog.capture('style_preview_clicked', {
+              style_name: this.dataset.stylePreview,
+              page: window.location.pathname
+            });
+          });
+        });
+
+        // Track pricing section visibility
+        var pricingSection = document.querySelector('[data-pricing-section]');
+        if (pricingSection && 'IntersectionObserver' in window) {
+          var observed = false;
+          var observer = new IntersectionObserver(function(entries) {
+            if (entries[0].isIntersecting && !observed) {
+              observed = true;
+              posthog.capture('pricing_plan_viewed', {
+                page: window.location.pathname
+              });
+              observer.disconnect();
+            }
+          }, { threshold: 0.5 });
+          observer.observe(pricingSection);
+        }
+      });
+    </script>
   </head>
   <body class="min-h-screen flex flex-col">
     <Header />
