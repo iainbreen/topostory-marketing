@@ -102,8 +102,55 @@ Add images to `public/images/`. Reference them in components:
 <img src="/images/example.png" alt="Description" />
 ```
 
+## Analytics (PostHog)
+
+PostHog is used for product analytics across both the marketing site and application.
+
+### Configuration
+
+Analytics runs in **production only** to avoid polluting data with test events. Environment variables are set in Vercel (Production environment only):
+
+| Variable | Where | Purpose |
+|----------|-------|---------|
+| `PUBLIC_POSTHOG_KEY` | Marketing site | Client-side tracking |
+| `VITE_POSTHOG_KEY` | App (client) | Client-side tracking |
+| `POSTHOG_API_KEY` | App (server) | Server-side event tracking (webhooks) |
+
+### Safari Support (Proxy)
+
+Safari's Intelligent Tracking Prevention blocks third-party analytics. We proxy PostHog requests through our own domain using Vercel rewrites:
+
+```
+Browser → /t/capture → Vercel rewrite → eu.i.posthog.com/capture
+```
+
+This is configured in `vercel.json`:
+
+```json
+{
+  "rewrites": [
+    { "source": "/t/static/:path*", "destination": "https://eu-assets.i.posthog.com/static/:path*" },
+    { "source": "/t/:path*", "destination": "https://eu.i.posthog.com/:path*" }
+  ]
+}
+```
+
+The client uses `api_host: '/t'` instead of the direct PostHog URL.
+
+### Cross-Domain Tracking
+
+Both sites share cookies on `.topostory.com` to track user journeys from marketing → app:
+
+```javascript
+posthog.init(key, {
+  cookie_domain: '.topostory.com',
+  cross_subdomain_cookie: true
+});
+```
+
 ## Tech Stack
 
 - **[Astro](https://astro.build/)** - Static site generator
 - **[Tailwind CSS](https://tailwindcss.com/)** - Utility-first CSS
 - **[Vercel](https://vercel.com/)** - Hosting and deployment
+- **[PostHog](https://posthog.com/)** - Product analytics (EU region)
