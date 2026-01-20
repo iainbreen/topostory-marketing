@@ -37,7 +37,7 @@ const styles = [
 
     <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
       {styles.map((style) => (
-        <div class="group rounded-xl border border-terrain-200 overflow-hidden hover:shadow-lg transition-shadow">
+        <div class="group rounded-xl border border-terrain-200 overflow-hidden hover:shadow-lg transition-shadow cursor-pointer" data-style-preview={style.name}>
           <div class="aspect-[3/4] relative">
             <!-- Color gradient preview -->
             <div class="absolute inset-0 flex flex-col">
