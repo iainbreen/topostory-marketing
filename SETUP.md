@@ -22,13 +22,25 @@ This guide documents all the steps needed to complete the TopoStory subdomain sp
 
 ## 2. Environment Variables
 
+### Marketing Site (this repo)
+
+Set in Vercel Dashboard → Settings → Environment Variables (**Production only**):
+
+| Variable | Value | Notes |
+|----------|-------|-------|
+| `PUBLIC_POSTHOG_KEY` | `phc_...` | PostHog project API key |
+| `PUBLIC_INTERCOM_APP_ID` | *(optional)* | Intercom app ID |
+
 ### Application (`topostory` repo)
 
-Update in Vercel Dashboard → Settings → Environment Variables:
+Set in Vercel Dashboard → Settings → Environment Variables:
 
-| Variable | Old Value | New Value |
-|----------|-----------|-----------|
-| `FRONTEND_URL` | `https://topostory.com` | `https://app.topostory.com` |
+| Variable | Value | Environment | Notes |
+|----------|-------|-------------|-------|
+| `FRONTEND_URL` | `https://app.topostory.com` | All | App URL |
+| `VITE_POSTHOG_KEY` | `phc_...` | Production only | Client-side analytics |
+| `POSTHOG_API_KEY` | `phc_...` | Production only | Server-side analytics (webhooks) |
+| `VITE_INTERCOM_APP_ID` | *(optional)* | Production only | Intercom app ID |
 
 ## 3. Clerk Dashboard
 
@@ -88,14 +100,24 @@ Vercel handles SSL certificates automatically.
 
 After making all changes, verify:
 
+### Domains & Authentication
 - [ ] `www.topostory.com` loads the marketing site
 - [ ] `topostory.com` redirects to `www.topostory.com`
 - [ ] `app.topostory.com` loads the application
 - [ ] Sign in works on `app.topostory.com`
+- [ ] Marketing site CTAs link to `app.topostory.com`
+
+### Payments
 - [ ] Stripe checkout completes and redirects back to `app.topostory.com`
 - [ ] Stripe webhooks are received (check Stripe Dashboard → Webhooks → Recent deliveries)
 - [ ] Billing portal returns to `app.topostory.com`
-- [ ] Marketing site CTAs link to `app.topostory.com`
+
+### Analytics (PostHog)
+- [ ] Open Safari on `www.topostory.com` with dev tools → Network tab
+- [ ] Filter by "t" and navigate the site
+- [ ] Verify `/t/...` requests return 200 status
+- [ ] Check PostHog Activity feed shows events from Safari users
+- [ ] Repeat for `app.topostory.com`
 
 ## Rollback
 
