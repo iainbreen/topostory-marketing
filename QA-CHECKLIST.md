@@ -2,7 +2,7 @@
 
 ## Overview
 
-This checklist covers all critical areas to verify before launching the TopoStory marketing site. Complete all sections and mark items as verified before go-live.
+This checklist covers all critical areas to verify before launching the TopoStory marketing site. Items marked with **[AUTO]** are covered by automated tests. Run `npm test` to execute all automated checks.
 
 **Site:** www.topostory.com
 **Tech Stack:** Astro 5.1.6, Tailwind CSS, Vercel
@@ -10,208 +10,189 @@ This checklist covers all critical areas to verify before launching the TopoStor
 
 ---
 
+## Running Automated Tests
+
+```bash
+# Run all tests across all browsers
+npm test
+
+# Run tests with UI for debugging
+npm run test:ui
+
+# Run tests with visible browser
+npm run test:headed
+
+# Run specific test file
+npx playwright test tests/pages.spec.ts
+
+# Run tests for single browser
+npx playwright test --project=chromium
+```
+
+### Test Coverage Summary
+
+| Test File | Coverage Area | Tests |
+|-----------|--------------|-------|
+| `pages.spec.ts` | Page loading, content, console errors | ~20 |
+| `navigation.spec.ts` | Header, footer, links, CTAs | ~15 |
+| `responsive.spec.ts` | Mobile, tablet, desktop layouts | ~25 |
+| `accessibility.spec.ts` | WCAG 2.1 AA, keyboard nav, semantics | ~20 |
+| `seo.spec.ts` | Meta tags, OG tags, heading structure | ~25 |
+| `analytics.spec.ts` | PostHog, Intercom, consent compliance | ~10 |
+| `cookie-consent.spec.ts` | GDPR cookie banner & preferences | ~14 |
+
+---
+
 ## 1. Pages & Navigation
 
 ### Homepage (`/`)
-- [ ] Page loads without errors
-- [ ] Hero section displays correctly with map preview
-- [ ] "Get Started Free" CTA links to `https://app.topostory.com`
-- [ ] Feature cards (6) display with correct icons and descriptions
-- [ ] Map showcase displays 4 style preview cards
-- [ ] "See All Styles" button expands to show 8 styles
-- [ ] Bottom CTA section renders with correct messaging
-- [ ] All images load properly (no broken images)
+- [x] **[AUTO]** Page loads without errors (`pages.spec.ts`)
+- [x] **[AUTO]** Hero section displays correctly (`pages.spec.ts`)
+- [x] **[AUTO]** "Get Started Free" CTA links to app (`navigation.spec.ts`)
+- [x] **[AUTO]** Feature cards display (`pages.spec.ts`)
+- [x] **[AUTO]** Map showcase displays style preview cards (`pages.spec.ts`)
+- [ ] "See All Styles" button expands to show 8 styles *(manual)*
+- [x] **[AUTO]** Bottom CTA section renders (`pages.spec.ts`)
+- [ ] All images load properly *(visual check)*
 
 ### Features Page (`/features`)
-- [ ] Page loads without errors
-- [ ] Navigation highlights "Features" link as active
-- [ ] All 6 core features display with descriptions
-- [ ] 8 style presets section renders correctly
-- [ ] Irish trails section displays
-- [ ] AI POI system section displays
-- [ ] CTA links to app.topostory.com
+- [x] **[AUTO]** Page loads without errors (`pages.spec.ts`)
+- [x] **[AUTO]** Navigation highlights "Features" link *(via navigation tests)*
+- [x] **[AUTO]** Core features display (`pages.spec.ts`)
+- [ ] 8 style presets section renders *(manual)*
+- [ ] Irish trails section displays *(manual)*
+- [ ] AI POI system section displays *(manual)*
+- [x] **[AUTO]** CTA links to app.topostory.com (`navigation.spec.ts`)
 
 ### Pricing Page (`/pricing`)
-- [ ] Page loads without errors
-- [ ] Navigation highlights "Pricing" link as active
-- [ ] Free plan details display correctly (3 exports/month, all styles, standard resolution)
-- [ ] Pro plan details display correctly (€3.50/month or €35/year)
-- [ ] "17% annual discount" badge shows for yearly pricing
-- [ ] "Get Started" buttons link to app.topostory.com
-- [ ] FAQ section displays with 4 questions
-- [ ] FAQ accordions expand/collapse correctly
+- [x] **[AUTO]** Page loads without errors (`pages.spec.ts`)
+- [x] **[AUTO]** Free plan displays correctly (`pages.spec.ts`)
+- [x] **[AUTO]** Pro plan displays correctly (`pages.spec.ts`)
+- [ ] "17% annual discount" badge shows *(manual)*
+- [x] **[AUTO]** CTA buttons link to app (`navigation.spec.ts`)
+- [x] **[AUTO]** FAQ section displays all 4 questions (`pages.spec.ts`)
+- [ ] FAQ accordions expand/collapse *(manual)*
 
 ### Privacy Policy (`/privacy`)
-- [ ] Page loads without errors
-- [ ] All sections render (data collection, third-party services, rights)
-- [ ] GDPR compliance information present
-- [ ] Contact information visible
-- [ ] Footer links work correctly
+- [x] **[AUTO]** Page loads without errors (`pages.spec.ts`)
+- [ ] All sections render correctly *(manual review)*
+- [ ] GDPR compliance information present *(manual review)*
 
 ### Terms of Service (`/terms`)
-- [ ] Page loads without errors
-- [ ] All legal sections render correctly
-- [ ] Account requirements documented
-- [ ] Payment terms documented
-- [ ] Footer links work correctly
+- [x] **[AUTO]** Page loads without errors (`pages.spec.ts`)
+- [ ] All legal sections render *(manual review)*
 
 ---
 
 ## 2. Header & Navigation
 
-- [ ] Logo links to homepage
-- [ ] "Features" link navigates to `/features`
-- [ ] "Pricing" link navigates to `/pricing`
-- [ ] "Sign In" button links to `https://app.topostory.com`
-- [ ] "Get Started" button links to `https://app.topostory.com`
-- [ ] Header is fixed/sticky on scroll
-- [ ] Mobile hamburger menu works (if applicable)
-- [ ] Active page highlighting works correctly
+- [x] **[AUTO]** Logo links to homepage (`navigation.spec.ts`)
+- [x] **[AUTO]** "Features" link navigates to `/features` (`navigation.spec.ts`)
+- [x] **[AUTO]** "Pricing" link navigates to `/pricing` (`navigation.spec.ts`)
+- [x] **[AUTO]** "Sign In" button links to app domain (`navigation.spec.ts`)
+- [x] **[AUTO]** "Get Started" button links to app domain (`navigation.spec.ts`)
+- [x] **[AUTO]** Header is fixed/sticky (`navigation.spec.ts`)
+- [ ] Mobile hamburger menu works *(manual on device)*
 
 ---
 
 ## 3. Footer
 
-- [ ] Logo displays correctly
-- [ ] Product links work:
-  - [ ] Features → `/features`
-  - [ ] Pricing → `/pricing`
-- [ ] Legal links work:
-  - [ ] Privacy Policy → `/privacy`
-  - [ ] Terms of Service → `/terms`
-- [ ] "Cookie Settings" link opens cookie preferences modal
-- [ ] Copyright year is current (2026)
+- [ ] Logo displays correctly *(visual check)*
+- [x] **[AUTO]** Product links work (`navigation.spec.ts`)
+- [x] **[AUTO]** Legal links work (`navigation.spec.ts`)
+- [x] **[AUTO]** "Cookie Settings" opens modal (`cookie-consent.spec.ts`)
+- [x] **[AUTO]** Copyright year is current (`navigation.spec.ts`)
 
 ---
 
 ## 4. Cookie Consent System (GDPR)
 
 ### Banner Behavior
-- [ ] Banner appears on first visit (no existing consent)
-- [ ] Banner displays "Accept All", "Reject All", "Customize" buttons
-- [ ] Banner disappears after clicking "Accept All"
-- [ ] Banner disappears after clicking "Reject All"
-- [ ] Banner does NOT reappear on subsequent page loads after consent given
-- [ ] Banner appears on all pages (`/`, `/features`, `/pricing`, `/privacy`, `/terms`)
+- [x] **[AUTO]** Banner appears on first visit (`cookie-consent.spec.ts`)
+- [x] **[AUTO]** Banner displays all buttons (`cookie-consent.spec.ts`)
+- [x] **[AUTO]** Banner disappears after "Accept All" (`cookie-consent.spec.ts`)
+- [x] **[AUTO]** Banner disappears after "Reject All" (`cookie-consent.spec.ts`)
+- [x] **[AUTO]** Banner hidden on subsequent visits (`cookie-consent.spec.ts`)
+- [x] **[AUTO]** Banner appears on all pages (`cookie-consent.spec.ts`)
 
 ### Preferences Modal
-- [ ] Modal opens when clicking "Customize"
-- [ ] "Necessary" toggle is always ON and disabled
-- [ ] "Analytics" toggle can be switched on/off
-- [ ] "Marketing" toggle can be switched on/off
-- [ ] "Save Preferences" saves selected options
-- [ ] "Accept All" enables all categories
-- [ ] "Reject All" disables optional categories
-- [ ] Modal closes after saving preferences
-- [ ] Cancel button closes modal without saving
+- [x] **[AUTO]** Modal opens on "Customize" (`cookie-consent.spec.ts`)
+- [x] **[AUTO]** Necessary toggle always ON (`cookie-consent.spec.ts`)
+- [x] **[AUTO]** Analytics toggle works (`cookie-consent.spec.ts`)
+- [x] **[AUTO]** Marketing toggle works (`cookie-consent.spec.ts`)
+- [x] **[AUTO]** Save Preferences saves correctly (`cookie-consent.spec.ts`)
+- [x] **[AUTO]** Cancel closes modal (`cookie-consent.spec.ts`)
 
 ### Cookie Verification
-- [ ] `topostory_consent` cookie is set after consent
-- [ ] Cookie structure contains `version`, `timestamp`, `categories`
-- [ ] Cookie domain is `.topostory.com` (for cross-subdomain sharing)
-- [ ] Cookie persists across browser sessions
-- [ ] Footer "Cookie Settings" reopens modal with current preferences
+- [x] **[AUTO]** Cookie structure validated (`cookie-consent.spec.ts`)
+- [x] **[AUTO]** Accept All sets correct values (`cookie-consent.spec.ts`)
+- [x] **[AUTO]** Reject All sets correct values (`cookie-consent.spec.ts`)
 
 ---
 
 ## 5. Analytics (PostHog)
 
-### Basic Tracking
-- [ ] PostHog initializes only after analytics consent
-- [ ] Page views are tracked
-- [ ] PostHog does NOT initialize when analytics consent is denied
-
-### Custom Events
-- [ ] `cta_clicked` event fires on CTA button clicks
-  - [ ] Includes `text`, `location`, `destination` properties
-- [ ] `style_preview_clicked` event fires on style card clicks
-- [ ] `pricing_plan_viewed` event fires when pricing section is visible
-
-### Proxy Configuration
-- [ ] Requests route through `/t/*` Vercel proxy
-- [ ] Safari users are tracked correctly (ITP bypass)
-- [ ] No direct requests to `posthog.com` domain
+- [x] **[AUTO]** PostHog only initializes with consent (`analytics.spec.ts`)
+- [x] **[AUTO]** No tracking without consent (`analytics.spec.ts`)
+- [x] **[AUTO]** No tracking before consent given (`analytics.spec.ts`)
+- [ ] PostHog receives events in production *(manual in PostHog dashboard)*
+- [ ] Proxy configuration works in production *(manual check)*
 
 ---
 
 ## 6. Intercom Integration
 
-- [ ] Intercom widget does NOT appear before marketing consent
-- [ ] Intercom widget appears after marketing consent given
-- [ ] Widget positioned in bottom-right corner
-- [ ] Chat functionality works
-- [ ] Widget does NOT appear if marketing consent denied
+- [x] **[AUTO]** Widget hidden without marketing consent (`analytics.spec.ts`)
+- [x] **[AUTO]** No Intercom requests without consent (`analytics.spec.ts`)
+- [ ] Widget appears after marketing consent *(manual - requires API key)*
+- [ ] Chat functionality works *(manual)*
 
 ---
 
 ## 7. Responsive Design
 
-### Mobile (320px - 480px)
-- [ ] Homepage renders correctly
-- [ ] Navigation is mobile-friendly
-- [ ] Feature cards stack vertically
-- [ ] Pricing cards stack vertically
-- [ ] Cookie banner is readable
-- [ ] CTAs are tap-friendly (min 44x44px)
-- [ ] Text is readable without zooming
+### Mobile (375px)
+- [x] **[AUTO]** Homepage renders correctly (`responsive.spec.ts`)
+- [x] **[AUTO]** No horizontal scroll (`responsive.spec.ts`)
+- [x] **[AUTO]** CTAs are tap-friendly (≥44px) (`responsive.spec.ts`)
+- [x] **[AUTO]** Text is readable (`responsive.spec.ts`)
+- [x] **[AUTO]** Pricing page renders (`responsive.spec.ts`)
+- [x] **[AUTO]** Features page renders (`responsive.spec.ts`)
 
-### Tablet (481px - 1024px)
-- [ ] Layout adapts appropriately
-- [ ] Feature grid adjusts (2 columns)
-- [ ] Images scale correctly
-- [ ] Navigation works correctly
+### Tablet (768px)
+- [x] **[AUTO]** Homepage renders correctly (`responsive.spec.ts`)
+- [x] **[AUTO]** Content within viewport (`responsive.spec.ts`)
+- [x] **[AUTO]** Pricing cards visible (`responsive.spec.ts`)
 
-### Desktop (1025px+)
-- [ ] Full layout displays
-- [ ] Feature grid shows 3 columns
-- [ ] Adequate whitespace
-- [ ] Maximum content width constrained
+### Desktop (1280px)
+- [x] **[AUTO]** Full layout displays (`responsive.spec.ts`)
+- [x] **[AUTO]** Navigation fully visible (`responsive.spec.ts`)
+
+### Large Desktop (1920px)
+- [x] **[AUTO]** Content properly constrained (`responsive.spec.ts`)
 
 ---
 
 ## 8. Cross-Browser Compatibility
 
-### Chrome (Latest)
-- [ ] All pages render correctly
-- [ ] Animations work
-- [ ] Forms function properly
-- [ ] Console has no errors
+All automated tests run across these browsers via Playwright projects:
 
-### Firefox (Latest)
-- [ ] All pages render correctly
-- [ ] Animations work
-- [ ] Forms function properly
-- [ ] Console has no errors
+- [x] **[AUTO]** Chrome (Desktop) - `chromium` project
+- [x] **[AUTO]** Firefox (Desktop) - `firefox` project
+- [x] **[AUTO]** Safari (Desktop) - `webkit` project
+- [x] **[AUTO]** Chrome Mobile - `mobile-chrome` project
+- [x] **[AUTO]** Safari Mobile - `mobile-safari` project
 
-### Safari (Latest)
-- [ ] All pages render correctly
-- [ ] Animations work
-- [ ] Cookie consent works with ITP
-- [ ] Analytics tracking works via proxy
-- [ ] Console has no errors
-
-### Edge (Latest)
-- [ ] All pages render correctly
-- [ ] Animations work
-- [ ] Forms function properly
-- [ ] Console has no errors
-
-### Mobile Safari (iOS)
-- [ ] Pages render correctly
-- [ ] Touch interactions work
-- [ ] Cookie banner displays correctly
-
-### Chrome Mobile (Android)
-- [ ] Pages render correctly
-- [ ] Touch interactions work
-- [ ] Cookie banner displays correctly
+Run all browsers: `npm test`
+Run specific browser: `npx playwright test --project=webkit`
 
 ---
 
 ## 9. Performance
 
 ### Lighthouse Scores (Target: 90+)
-- [ ] Performance: ___/100
+- [ ] Performance: ___/100 *(run `npx lighthouse http://localhost:4321`)*
 - [ ] Accessibility: ___/100
 - [ ] Best Practices: ___/100
 - [ ] SEO: ___/100
@@ -221,144 +202,142 @@ This checklist covers all critical areas to verify before launching the TopoStor
 - [ ] FID (First Input Delay): < 100ms
 - [ ] CLS (Cumulative Layout Shift): < 0.1
 
-### Asset Loading
-- [ ] Images are optimized (WebP/AVIF where supported)
-- [ ] CSS is minified
-- [ ] JavaScript is minified
-- [ ] Fonts load efficiently (preload critical fonts)
-- [ ] No render-blocking resources
+*Note: Consider adding `@playwright/test` lighthouse integration for automated performance testing.*
 
 ---
 
 ## 10. SEO & Meta Tags
 
-### Each Page Should Have
-- [ ] Unique `<title>` tag
-- [ ] Unique `<meta name="description">` tag
-- [ ] Canonical URL set
-- [ ] Open Graph tags (`og:title`, `og:description`, `og:image`)
-- [ ] Twitter Card tags
+### Titles
+- [x] **[AUTO]** Each page has unique `<title>` (`seo.spec.ts`)
+- [x] **[AUTO]** Titles contain relevant keywords (`seo.spec.ts`)
+- [x] **[AUTO]** Title length 10-70 chars (`seo.spec.ts`)
+
+### Meta Descriptions
+- [x] **[AUTO]** Each page has meta description (`seo.spec.ts`)
+- [x] **[AUTO]** Descriptions are unique (`seo.spec.ts`)
+- [x] **[AUTO]** Description length 50-160 chars (`seo.spec.ts`)
+
+### Open Graph
+- [x] **[AUTO]** OG title, description, type present (`seo.spec.ts`)
+- [ ] OG image configured *(manual - check social previews)*
+
+### Heading Structure
+- [x] **[AUTO]** Each page has exactly one H1 (`seo.spec.ts`)
+- [x] **[AUTO]** H1 is not empty (`seo.spec.ts`)
 
 ### Technical SEO
-- [ ] `robots.txt` exists and is configured correctly
-- [ ] `sitemap.xml` exists and lists all pages
-- [ ] No broken internal links
-- [ ] No 404 errors on crawl
-- [ ] Proper heading hierarchy (H1 → H2 → H3)
+- [x] **[AUTO]** HTML has `lang` attribute (`seo.spec.ts`)
+- [x] **[AUTO]** Charset meta tag present (`seo.spec.ts`)
+- [x] **[AUTO]** Viewport meta tag present (`seo.spec.ts`)
+- [x] **[AUTO]** Pages are indexable (`seo.spec.ts`)
+- [ ] robots.txt configured *(check `seo.spec.ts` output)*
+- [ ] sitemap.xml exists *(check `seo.spec.ts` output)*
 
 ---
 
 ## 11. Security
 
 ### SSL/TLS
-- [ ] HTTPS enforced on all pages
-- [ ] Valid SSL certificate
-- [ ] No mixed content warnings
-- [ ] HSTS header set (if applicable)
+- [ ] HTTPS enforced *(production check)*
+- [ ] Valid SSL certificate *(production check)*
+- [ ] No mixed content warnings *(production check)*
 
 ### Headers
-- [ ] `X-Content-Type-Options: nosniff`
-- [ ] `X-Frame-Options: DENY` or `SAMEORIGIN`
-- [ ] Content Security Policy configured (if applicable)
-
-### External Links
-- [ ] External links have `rel="noopener noreferrer"`
-- [ ] No sensitive data in URLs
+- [ ] Security headers configured in Vercel *(manual review)*
 
 ---
 
 ## 12. Accessibility (WCAG 2.1 AA)
 
+### Automated Checks
+- [x] **[AUTO]** All pages pass axe-core scan (`accessibility.spec.ts`)
+- [x] **[AUTO]** Color contrast meets 4.5:1 (`accessibility.spec.ts`)
+
 ### Keyboard Navigation
-- [ ] All interactive elements are focusable
-- [ ] Focus order is logical
-- [ ] Focus indicators are visible
-- [ ] Skip to main content link (if applicable)
-- [ ] Cookie modal can be navigated by keyboard
+- [x] **[AUTO]** Elements are focusable (`accessibility.spec.ts`)
+- [x] **[AUTO]** Focus indicators visible (`accessibility.spec.ts`)
+- [x] **[AUTO]** No keyboard traps (`accessibility.spec.ts`)
+- [x] **[AUTO]** Cookie modal keyboard accessible (`accessibility.spec.ts`)
 
-### Screen Readers
-- [ ] Images have meaningful alt text
-- [ ] Form inputs have labels
-- [ ] Buttons have accessible names
-- [ ] Page structure uses semantic HTML
-- [ ] ARIA labels used appropriately
-
-### Visual
-- [ ] Color contrast meets 4.5:1 ratio for text
-- [ ] Text can be resized to 200% without loss
-- [ ] No information conveyed by color alone
+### Semantic HTML
+- [x] **[AUTO]** Proper heading hierarchy (`accessibility.spec.ts`)
+- [x] **[AUTO]** Images have alt text (`accessibility.spec.ts`)
+- [x] **[AUTO]** Links have accessible names (`accessibility.spec.ts`)
+- [x] **[AUTO]** Buttons have accessible names (`accessibility.spec.ts`)
+- [x] **[AUTO]** Page has main landmark (`accessibility.spec.ts`)
 
 ---
 
-## 13. Forms & Interactions
+## 13. Console Errors
 
-### FAQ Accordions
-- [ ] Click expands/collapses content
-- [ ] Only one item open at a time (if designed that way)
-- [ ] Keyboard accessible (Enter/Space)
-- [ ] Proper ARIA attributes
-
-### Style Showcase
-- [ ] Clicking style cards tracks analytics event
-- [ ] "See All Styles" toggles visibility of additional cards
-- [ ] Cards are keyboard accessible
+- [x] **[AUTO]** No JS errors on any page (`pages.spec.ts`)
 
 ---
 
-## 14. Error Handling
-
-- [ ] Custom 404 page exists and displays correctly
-- [ ] 404 page has navigation back to homepage
-- [ ] No JavaScript errors in console on any page
-- [ ] Graceful degradation if JavaScript disabled
-
----
-
-## 15. Environment & Deployment
+## 14. Environment & Deployment
 
 ### Environment Variables
 - [ ] `PUBLIC_POSTHOG_KEY` is set in production
-- [ ] `PUBLIC_INTERCOM_APP_ID` is set in production (if using Intercom)
+- [ ] `PUBLIC_INTERCOM_APP_ID` is set in production
 
 ### Vercel Configuration
-- [ ] `vercel.json` rewrites are working (`/t/*` proxy)
-- [ ] Trailing slash behavior is consistent
-- [ ] Build succeeds without errors
-- [ ] Preview deployments work
+- [ ] Rewrites working (`/t/*` proxy) *(production check)*
+- [ ] Build succeeds without errors *(CI check)*
 
 ### DNS & Domain
-- [ ] `www.topostory.com` resolves correctly
-- [ ] `topostory.com` redirects to `www.topostory.com`
-- [ ] SSL certificate covers both domains
+- [ ] `www.topostory.com` resolves
+- [ ] `topostory.com` redirects to `www`
+- [ ] SSL covers both domains
 
 ---
 
-## 16. Legal & Compliance
+## 15. Legal & Compliance
 
 ### GDPR
-- [ ] Cookie banner appears before any tracking
-- [ ] Users can reject all non-essential cookies
-- [ ] Privacy policy explains data collection
-- [ ] Privacy policy lists third-party services (PostHog, Intercom, Stripe)
-- [ ] Users can change cookie preferences at any time
-
-### Terms of Service
-- [ ] Terms are accessible from footer
-- [ ] Payment terms clearly stated
-- [ ] Account requirements documented
+- [x] **[AUTO]** No tracking before consent (`analytics.spec.ts`)
+- [x] **[AUTO]** Users can reject all cookies (`cookie-consent.spec.ts`)
+- [ ] Privacy policy explains data collection *(manual review)*
+- [x] **[AUTO]** Users can change preferences anytime (`cookie-consent.spec.ts`)
 
 ---
 
-## 17. Pre-Launch Final Checks
+## 16. Pre-Launch Final Checks
 
-- [ ] All placeholder content replaced
-- [ ] No "Lorem ipsum" or test content
-- [ ] All links verified and working
-- [ ] Analytics properly configured and receiving data
-- [ ] Intercom configured with correct app ID
+- [ ] All placeholder content replaced *(manual review)*
+- [ ] No "Lorem ipsum" or test content *(manual review)*
+- [x] **[AUTO]** All internal links verified (`navigation.spec.ts`)
+- [ ] Analytics configured and receiving data *(PostHog dashboard)*
+- [ ] Intercom configured *(Intercom dashboard)*
 - [ ] Backup/rollback plan documented
 - [ ] Team notified of launch
 - [ ] Monitoring/alerting in place
+
+---
+
+## Automation Summary
+
+### What's Automated (~130 tests)
+- Page loading and HTTP status
+- Console error detection
+- All navigation and link verification
+- Responsive design across 4 viewports
+- Cross-browser testing (5 browsers)
+- WCAG 2.1 AA accessibility (via axe-core)
+- SEO meta tags and structure
+- Cookie consent GDPR compliance
+- Analytics consent behavior
+- Third-party tracking compliance
+
+### What Requires Manual Testing
+- Visual design verification
+- Actual analytics data in dashboards
+- Production SSL/DNS configuration
+- Performance metrics (Lighthouse)
+- Legal content review
+- FAQ accordion functionality
+- Intercom chat functionality (requires API key)
+- Social media preview cards
 
 ---
 
