@@ -1,6 +1,7 @@
 ---
 import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
+import CookieBanner from '@/components/CookieBanner.astro';
 import '@/styles/global.css';
 
 interface Props {
@@ -32,13 +33,27 @@ const { title, description = 'Create beautiful topographical maps of your favour
     <meta name="twitter:title" content={`${title} | TopoStory`} />
     <meta name="twitter:description" content={description} />
 
-    <!-- PostHog Analytics + Intercom Support -->
+    <!-- PostHog Analytics + Intercom Support (consent-aware) -->
     <script is:inline define:vars={{
       posthogKey: import.meta.env.PUBLIC_POSTHOG_KEY,
       intercomAppId: import.meta.env.PUBLIC_INTERCOM_APP_ID
     }}>
-      // PostHog
-      if (posthogKey) {
+      // Check consent before initializing analytics
+      function getConsentFromCookie() {
+        const match = document.cookie.match(/topostory_consent=([^;]+)/);
+        if (!match) return null;
+        try {
+          return JSON.parse(decodeURIComponent(match[1]));
+        } catch {
+          return null;
+        }
+      }
+
+      let posthogInitialized = false;
+      let intercomInitialized = false;
+
+      function initPostHog() {
+        if (posthogInitialized || !posthogKey) return;
         !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys onSessionId".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
         posthog.init(posthogKey, {
           api_host: '/t',
@@ -47,13 +62,28 @@ const { title, description = 'Create beautiful topographical maps of your favour
           cookie_domain: '.topostory.com',
           cross_subdomain_cookie: true
         });
+        posthogInitialized = true;
       }
 
-      // Intercom
-      if (intercomAppId) {
+      function initIntercom() {
+        if (intercomInitialized || !intercomAppId) return;
         window.intercomSettings = { api_base: "https://api-iam.intercom.io", app_id: intercomAppId };
         (function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',w.intercomSettings);}else{var d=document;var i=function(){i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;var l=function(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/' + intercomAppId;var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};if(document.readyState==='complete'){l();}else if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();
+        intercomInitialized = true;
       }
+
+      // Initialize based on existing consent
+      const consent = getConsentFromCookie();
+      if (consent?.categories?.analytics) {
+        initPostHog();
+      }
+      if (consent?.categories?.marketing) {
+        initIntercom();
+      }
+
+      // Listen for consent changes from the cookie banner
+      window.addEventListener('consent-analytics-allowed', initPostHog);
+      window.addEventListener('consent-marketing-allowed', initIntercom);
     </script>
 
     <!-- PostHog Custom Event Tracking -->
@@ -107,5 +137,6 @@ const { title, description = 'Create beautiful topographical maps of your favour
       <slot />
     </main>
     <Footer />
+    <CookieBanner />
   </body>
 </html>
