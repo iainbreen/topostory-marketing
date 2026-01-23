@@ -148,9 +148,38 @@ posthog.init(key, {
 });
 ```
 
+## Customer Support (Intercom)
+
+Intercom provides a chat widget for customer support inquiries on the marketing site.
+
+### Configuration
+
+Set the environment variable in Vercel (Production environment only):
+
+| Variable | Purpose |
+|----------|---------|
+| `PUBLIC_INTERCOM_APP_ID` | Intercom application ID |
+
+### How it Works
+
+- The widget loads after users accept marketing cookies (GDPR consent)
+- Visitors on the marketing site are **anonymous** (not logged in)
+- The same Intercom App ID is used on `app.topostory.com` where users are identified
+- Chat widget appears in the bottom-right corner
+
+### Consent Integration
+
+Intercom only initializes when `consent.categories.marketing` is true. The initialization flow:
+
+1. Page loads → check `topostory_consent` cookie
+2. If marketing consent exists → `initIntercom()` runs
+3. If no consent → wait for `consent-marketing-allowed` event from cookie banner
+4. Cookie banner accepts → dispatches event → Intercom initializes
+
 ## Tech Stack
 
 - **[Astro](https://astro.build/)** - Static site generator
 - **[Tailwind CSS](https://tailwindcss.com/)** - Utility-first CSS
 - **[Vercel](https://vercel.com/)** - Hosting and deployment
 - **[PostHog](https://posthog.com/)** - Product analytics (EU region)
+- **[Intercom](https://intercom.com/)** - Customer support chat
