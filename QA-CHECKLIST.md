@@ -12,6 +12,18 @@ This checklist covers all critical areas to verify before launching the TopoStor
 
 ## Running Automated Tests
 
+### First-Time Setup
+
+```bash
+# Install dependencies
+npm install
+
+# Install Playwright browsers (required once)
+npx playwright install --with-deps
+```
+
+### Running Tests
+
 ```bash
 # Run all tests across all browsers
 npm test
@@ -28,6 +40,15 @@ npx playwright test tests/pages.spec.ts
 # Run tests for single browser
 npx playwright test --project=chromium
 ```
+
+### CI/CD Integration
+
+Tests run automatically via GitHub Actions on:
+- Push to `main` branch
+- Push to `claude/**` branches
+- Pull requests to `main`
+
+See `.github/workflows/qa-tests.yml` for configuration.
 
 ### Test Coverage Summary
 
