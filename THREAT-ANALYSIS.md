@@ -1,6 +1,6 @@
 # TopoStory Marketing Site - Pre-Launch Threat Analysis
 
-**Version:** 1.0
+**Version:** 1.1
 **Date:** January 2026
 **Scope:** www.topostory.com (Marketing Site)
 **Related:** app.topostory.com (Main Application - separate repo)
@@ -44,17 +44,17 @@ The marketing site itself has a minimal attack surface due to its static nature.
 │                      Vercel Edge Network                      │
 │  ┌─────────────────┐  ┌─────────────────┐  ┌───────────────┐  │
 │  │  www.topostory  │  │  Rewrites/Proxy │  │    SSL/CDN    │  │
-│  │      .com       │  │   /__clerk/*    │  │               │  │
-│  │                 │  │   /t/*          │  │               │  │
+│  │      .com       │  │   /t/*          │  │               │  │
+│  │                 │  │   (PostHog)     │  │               │  │
 │  └─────────────────┘  └─────────────────┘  └───────────────┘  │
 └───────────────────────────────┬───────────────────────────────┘
                                 │
-            ┌───────────────────┼───────────────────┐
-            ▼                   ▼                   ▼
-      ┌──────────┐        ┌──────────┐        ┌──────────┐
-      │ PostHog  │        │ Intercom │        │  Clerk   │
-      │   (EU)   │        │          │        │ (proxy)  │
-      └──────────┘        └──────────┘        └──────────┘
+                  ┌─────────────┴─────────────┐
+                  ▼                           ▼
+            ┌──────────┐                ┌──────────┐
+            │ PostHog  │                │ Intercom │
+            │   (EU)   │                │          │
+            └──────────┘                └──────────┘
 ```
 
 **Key Characteristics:**
@@ -368,19 +368,23 @@ Privacy policy states service not intended for children under 16.
 - Remove unused subdomain records
 - Use registrar lock to prevent unauthorized transfers
 
-### 6.2 Vercel Rewrite Security - MEDIUM RISK
+### 6.2 Vercel Rewrite Security - LOW RISK
 
 **Current Rewrites:**
 ```json
 {
-  "source": "/__clerk/:path*",
-  "destination": "https://clerk.topostory.com/:path*"
+  "source": "/t/static/:path*",
+  "destination": "https://eu-assets.i.posthog.com/static/:path*"
 },
 {
   "source": "/t/:path*",
   "destination": "https://eu.i.posthog.com/:path*"
 }
 ```
+
+**Status:** ✅ Cleaned up
+
+The unused `/__clerk/*` rewrite has been removed. Only PostHog proxy rewrites remain.
 
 **Risks:**
 
@@ -389,13 +393,9 @@ Privacy policy states service not intended for children under 16.
    - Could potentially be abused to proxy other requests if misconfigured
    - **Current config is safe** - destination is hardcoded
 
-2. **Clerk Proxy**
-   - `/__clerk/*` proxies authentication requests
-   - Marketing site shouldn't need this - inherited from app setup?
-
-**Recommendation:**
-- Remove `/__clerk/*` rewrite if not needed on marketing site
-- Document why each rewrite exists
+**Rewrite Purposes:**
+- `/t/*` - First-party proxy for PostHog analytics to bypass Safari ITP
+- `/t/static/*` - Serves PostHog static assets through first-party domain
 
 ### 6.3 SSL/TLS Configuration - LOW RISK
 
@@ -517,45 +517,45 @@ All links point to `https://app.topostory.com` - hardcoded and safe.
 
 ### Critical (Do Before Launch)
 
-| # | Issue | Action | Effort |
+| # | Issue | Action | Status |
 |---|-------|--------|--------|
-| 1 | PostHog cost controls | Set up billing alerts and spending cap | 30 min |
-| 2 | Bot protection | Enable Vercel bot protection | 15 min |
-| 3 | npm audit | Run and fix any vulnerabilities | 30 min |
+| 1 | PostHog cost controls | Set up billing alerts and spending cap | ⏳ Manual config needed |
+| 2 | Bot protection | Enable Vercel bot protection | ⏳ Manual config needed |
+| 3 | npm audit | Run and fix any vulnerabilities | ✅ Done (1 upstream issue remains) |
 
 ### High Priority (Within First Week)
 
-| # | Issue | Action | Effort |
+| # | Issue | Action | Status |
 |---|-------|--------|--------|
-| 4 | Security headers | Add CSP, X-Frame-Options via vercel.json | 1 hour |
-| 5 | Remove unused rewrite | Remove `/__clerk/*` if not needed | 15 min |
-| 6 | Intercom abuse prevention | Configure spam filtering | 30 min |
-| 7 | DNS audit | Review all subdomain records | 1 hour |
+| 4 | Security headers | Add CSP, X-Frame-Options via vercel.json | ✅ Done |
+| 5 | Remove unused rewrite | Remove `/__clerk/*` if not needed | ✅ Done |
+| 6 | Intercom abuse prevention | Configure spam filtering | ⏳ Manual config needed |
+| 7 | DNS audit | Review all subdomain records | ⏳ Manual config needed |
 
 ### Medium Priority (Within First Month)
 
-| # | Issue | Action | Effort |
+| # | Issue | Action | Status |
 |---|-------|--------|--------|
-| 8 | Cookie policy | Add detailed cookie inventory | 2 hours |
-| 9 | Monitoring | Set up uptime monitoring | 1 hour |
-| 10 | Incident response | Document response plan for third-party compromise | 2 hours |
+| 8 | Cookie policy | Add detailed cookie inventory | ✅ Done (Appendix D) |
+| 9 | Monitoring | Set up uptime monitoring | ⏳ Manual config needed |
+| 10 | Incident response | Document response plan for third-party compromise | ✅ Done (INCIDENT-RESPONSE.md) |
 
 ### Low Priority (Ongoing)
 
-| # | Issue | Action | Effort |
+| # | Issue | Action | Status |
 |---|-------|--------|--------|
-| 11 | Dependency updates | Enable Dependabot | 30 min |
-| 12 | Regular audits | Schedule quarterly security review | Recurring |
+| 11 | Dependency updates | Enable Dependabot | ✅ Done |
+| 12 | Regular audits | Schedule quarterly security review | ⏳ Process item |
 
 ---
 
 ## 10. Pre-Launch Checklist
 
 ### Security
-- [ ] Run `npm audit` and fix vulnerabilities
-- [ ] Add security headers to vercel.json
+- [x] Run `npm audit` and fix vulnerabilities
+- [x] Add security headers to vercel.json
 - [ ] Verify HTTPS redirects work
-- [ ] Review and remove unnecessary Vercel rewrites
+- [x] Review and remove unnecessary Vercel rewrites
 - [ ] Audit DNS records for unused subdomains
 
 ### Cost Controls
@@ -580,15 +580,17 @@ All links point to `https://app.topostory.com` - hardcoded and safe.
 
 ### Documentation
 - [ ] Document all environment variables
-- [ ] Document Vercel rewrite purposes
-- [ ] Create incident response runbook
+- [x] Document Vercel rewrite purposes
+- [x] Create incident response runbook
 - [ ] Document third-party dependencies and their purposes
 
 ---
 
 ## Appendix A: Security Headers Recommendation
 
-Add to `vercel.json`:
+**Status:** ✅ Implemented in `vercel.json`
+
+The following headers have been added:
 
 ```json
 {
