@@ -24,23 +24,33 @@ Open http://localhost:4321 to view the site.
 ## Project Structure
 
 ```
-src/
-├── layouts/
-│   └── BaseLayout.astro    # Shared HTML structure
-├── pages/
-│   ├── index.astro         # Landing page
-│   ├── pricing.astro       # Pricing comparison
-│   └── features.astro      # Feature details
-├── components/
-│   ├── Header.astro        # Navigation header
-│   ├── Footer.astro        # Site footer
-│   ├── Hero.astro          # Hero section
-│   ├── Features.astro      # Feature grid
-│   ├── MapShowcase.astro   # Style preview cards
-│   ├── Pricing.astro       # Pricing cards
-│   └── CTA.astro           # Call-to-action sections
-└── styles/
-    └── global.css          # Tailwind imports + custom styles
+├── CLAUDE.md               # Claude Code context file
+├── THREAT-ANALYSIS.md      # Security analysis
+├── INCIDENT-RESPONSE.md    # Incident runbook
+├── QA-CHECKLIST.md         # QA testing checklist
+├── vercel.json             # Rewrites, headers, redirects
+├── src/
+│   ├── layouts/
+│   │   └── BaseLayout.astro    # Shared HTML structure + analytics init
+│   ├── pages/
+│   │   ├── index.astro         # Landing page
+│   │   ├── pricing.astro       # Pricing comparison
+│   │   ├── features.astro      # Feature details
+│   │   ├── privacy.astro       # Privacy policy
+│   │   └── terms.astro         # Terms of service
+│   ├── components/
+│   │   ├── Header.astro        # Navigation header
+│   │   ├── Footer.astro        # Site footer
+│   │   ├── Hero.astro          # Hero section
+│   │   ├── Features.astro      # Feature grid
+│   │   ├── MapShowcase.astro   # Style preview cards
+│   │   ├── Pricing.astro       # Pricing cards
+│   │   ├── CTA.astro           # Call-to-action sections
+│   │   └── CookieConsent.astro # GDPR cookie banner
+│   └── styles/
+│       └── global.css          # Tailwind imports + custom styles
+└── tests/
+    └── cookie-consent.spec.ts  # E2E tests for cookie consent
 ```
 
 ## Deployment Architecture
@@ -175,6 +185,42 @@ Intercom only initializes when `consent.categories.marketing` is true. The initi
 2. If marketing consent exists → `initIntercom()` runs
 3. If no consent → wait for `consent-marketing-allowed` event from cookie banner
 4. Cookie banner accepts → dispatches event → Intercom initializes
+
+## Cookie Consent (GDPR)
+
+The site includes a GDPR-compliant cookie consent banner that:
+
+- Appears on first visit with Accept All / Reject All / Customize options
+- Blocks PostHog and Intercom until appropriate consent is given
+- Stores preferences in `topostory_consent` cookie (shared with app.topostory.com)
+- Allows users to update preferences via "Cookie Settings" link in footer
+
+See `src/components/CookieConsent.astro` for implementation.
+
+## Security & Compliance
+
+### Documentation
+
+| Document | Purpose |
+|----------|---------|
+| [THREAT-ANALYSIS.md](./THREAT-ANALYSIS.md) | Pre-launch security analysis and checklist |
+| [INCIDENT-RESPONSE.md](./INCIDENT-RESPONSE.md) | Security incident response runbook |
+| [QA-CHECKLIST.md](./QA-CHECKLIST.md) | Pre-launch QA testing checklist |
+
+### Security Headers
+
+Configured in `vercel.json`:
+
+- `X-Frame-Options: DENY` - Clickjacking protection
+- `X-Content-Type-Options: nosniff` - MIME type sniffing protection
+- `Referrer-Policy: strict-origin-when-cross-origin` - Referrer control
+- `Permissions-Policy` - Restricts camera, microphone, geolocation
+
+### Monitoring
+
+- **Uptime:** UptimeRobot monitors `www.topostory.com` and `app.topostory.com`
+- **Bot Protection:** Vercel bot protection enabled (log-only mode)
+- **Analytics:** PostHog with automatic bot filtering
 
 ## Tech Stack
 
