@@ -6,7 +6,7 @@ test.describe('Cookie Consent Banner', () => {
     await context.clearCookies();
   });
 
-  test('shows banner on first visit when no consent exists', async ({ page }) => {
+  test('shows banner on first visit when no consent exists @ci', async ({ page }) => {
     await page.goto('/');
 
     // Banner should be visible
@@ -16,7 +16,7 @@ test.describe('Cookie Consent Banner', () => {
     await expect(page.getByText('Customize')).toBeVisible();
   });
 
-  test('hides banner after clicking Accept All', async ({ page }) => {
+  test('hides banner after clicking Accept All @ci', async ({ page }) => {
     await page.goto('/');
 
     // Click Accept All
@@ -109,7 +109,7 @@ test.describe('Cookie Consent Banner', () => {
     await expect(page.locator('#cookie-banner')).toBeVisible();
   });
 
-  test('sets correct cookie value on Accept All', async ({ page, context }) => {
+  test('sets correct cookie value on Accept All @ci', async ({ page, context }) => {
     await page.goto('/');
 
     await page.getByRole('button', { name: 'Accept All' }).click();
@@ -126,7 +126,7 @@ test.describe('Cookie Consent Banner', () => {
     expect(value.categories.necessary).toBe(true);
   });
 
-  test('sets correct cookie value on Reject All', async ({ page, context }) => {
+  test('sets correct cookie value on Reject All @ci', async ({ page, context }) => {
     await page.goto('/');
 
     await page.getByRole('button', { name: 'Reject All' }).click();

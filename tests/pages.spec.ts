@@ -16,7 +16,7 @@ test.describe('Page Loading & Content', () => {
   });
 
   test.describe('Homepage (/)', () => {
-    test('loads without errors', async ({ page }) => {
+    test('loads without errors @ci', async ({ page }) => {
       const errors: string[] = [];
       page.on('pageerror', (error) => errors.push(error.message));
 
@@ -52,7 +52,7 @@ test.describe('Page Loading & Content', () => {
   });
 
   test.describe('Features Page (/features)', () => {
-    test('loads without errors', async ({ page }) => {
+    test('loads without errors @ci', async ({ page }) => {
       const errors: string[] = [];
       page.on('pageerror', (error) => errors.push(error.message));
 
@@ -74,7 +74,7 @@ test.describe('Page Loading & Content', () => {
   });
 
   test.describe('Pricing Page (/pricing)', () => {
-    test('loads without errors', async ({ page }) => {
+    test('loads without errors @ci', async ({ page }) => {
       const errors: string[] = [];
       page.on('pageerror', (error) => errors.push(error.message));
 
@@ -111,7 +111,7 @@ test.describe('Page Loading & Content', () => {
   });
 
   test.describe('Privacy Page (/privacy)', () => {
-    test('loads without errors', async ({ page }) => {
+    test('loads without errors @ci', async ({ page }) => {
       const errors: string[] = [];
       page.on('pageerror', (error) => errors.push(error.message));
 
@@ -127,7 +127,7 @@ test.describe('Page Loading & Content', () => {
   });
 
   test.describe('Terms Page (/terms)', () => {
-    test('loads without errors', async ({ page }) => {
+    test('loads without errors @ci', async ({ page }) => {
       const errors: string[] = [];
       page.on('pageerror', (error) => errors.push(error.message));
 
