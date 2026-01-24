@@ -92,3 +92,27 @@ Playwright E2E tests in `tests/`:
 - Tracking blocked when rejected
 
 Run with: `npm run test`
+
+## Pre-Launch Checklist
+
+Before deploying to production, verify:
+
+### Technical
+- [ ] `npm audit` shows no high/critical vulnerabilities
+- [ ] Environment variables set in Vercel (`PUBLIC_POSTHOG_KEY`, `PUBLIC_INTERCOM_APP_ID`)
+- [ ] `npm run build` completes without errors
+- [ ] `npm run test` passes
+
+### Manual QA
+- [ ] Cookie consent: accept, reject, and customize flows work
+- [ ] PostHog loads after analytics consent (check network tab)
+- [ ] Intercom loads after marketing consent
+- [ ] All navigation links work (header, footer, CTAs)
+- [ ] Pages render correctly on mobile (iPhone) and desktop
+- [ ] Lighthouse scores 90+ on all pages
+
+### Post-Deploy
+- [ ] SSL certificate valid for www.topostory.com
+- [ ] topostory.com redirects to www.topostory.com
+- [ ] 404 page displays for invalid URLs
+- [ ] OG image previews correctly on social media

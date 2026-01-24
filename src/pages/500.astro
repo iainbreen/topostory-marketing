@@ -1,0 +1,25 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Server Error" description="Something went wrong on our end.">
+  <section class="py-20 sm:py-32">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h1 class="text-6xl sm:text-8xl font-display font-bold text-terrain-300">500</h1>
+      <h2 class="mt-4 text-2xl sm:text-3xl font-display font-bold text-terrain-900">
+        Something went wrong
+      </h2>
+      <p class="mt-4 text-lg text-terrain-700">
+        We hit an unexpected obstacle on the trail. Please try again in a moment.
+      </p>
+      <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+        <button onclick="window.location.reload()" class="btn btn-primary">
+          Try Again
+        </button>
+        <a href="/" class="btn btn-outline">
+          Back to Home
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
