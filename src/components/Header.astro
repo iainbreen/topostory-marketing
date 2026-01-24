@@ -16,6 +16,7 @@ const navLinks = [
         <span class="text-xl font-display font-semibold text-terrain-900">TopoStory</span>
       </a>
 
+      <!-- Desktop navigation -->
       <div class="hidden sm:flex items-center gap-8">
         {navLinks.map((link) => (
           <a href={link.href} class="text-terrain-700 hover:text-terrain-900 transition-colors">
@@ -24,7 +25,8 @@ const navLinks = [
         ))}
       </div>
 
-      <div class="flex items-center gap-4">
+      <!-- Desktop CTAs -->
+      <div class="hidden sm:flex items-center gap-4">
         <a href="https://app.topostory.com" class="text-terrain-700 hover:text-terrain-900 transition-colors">
           Sign In
         </a>
@@ -32,6 +34,63 @@ const navLinks = [
           Get Started
         </a>
       </div>
+
+      <!-- Mobile menu button -->
+      <button
+        id="mobile-menu-btn"
+        class="sm:hidden p-2 -mr-2 text-terrain-700 hover:text-terrain-900"
+        aria-label="Open menu"
+        aria-expanded="false"
+      >
+        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path id="menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          <path id="close-icon" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile menu -->
+    <div id="mobile-menu" class="hidden sm:hidden border-t border-terrain-100">
+      <div class="py-4 space-y-4">
+        {navLinks.map((link) => (
+          <a href={link.href} class="block text-terrain-700 hover:text-terrain-900 transition-colors py-2">
+            {link.label}
+          </a>
+        ))}
+        <div class="pt-4 border-t border-terrain-100 space-y-3">
+          <a href="https://app.topostory.com" class="block text-terrain-700 hover:text-terrain-900 transition-colors py-2">
+            Sign In
+          </a>
+          <a href="https://app.topostory.com" class="btn btn-primary w-full text-center">
+            Get Started
+          </a>
+        </div>
+      </div>
     </div>
   </nav>
 </header>
+
+<script>
+  const menuBtn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  const menuIcon = document.getElementById('menu-icon');
+  const closeIcon = document.getElementById('close-icon');
+
+  menuBtn?.addEventListener('click', () => {
+    const isOpen = menu?.classList.contains('hidden') === false;
+
+    if (isOpen) {
+      menu?.classList.add('hidden');
+      menuIcon?.classList.remove('hidden');
+      closeIcon?.classList.add('hidden');
+      menuBtn?.setAttribute('aria-expanded', 'false');
+      menuBtn?.setAttribute('aria-label', 'Open menu');
+    } else {
+      menu?.classList.remove('hidden');
+      menuIcon?.classList.add('hidden');
+      closeIcon?.classList.remove('hidden');
+      menuBtn?.setAttribute('aria-expanded', 'true');
+      menuBtn?.setAttribute('aria-label', 'Close menu');
+    }
+  });
+</script>

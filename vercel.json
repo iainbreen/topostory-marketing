@@ -23,6 +23,10 @@
         {
           "key": "Strict-Transport-Security",
           "value": "max-age=31536000; includeSubDomains"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://widget.intercom.io; style-src 'self' 'unsafe-inline'; connect-src 'self' /t https://eu.i.posthog.com https://api-iam.intercom.io wss://nexus-websocket-a.intercom.io; img-src 'self' data: https:; font-src 'self' https://js.intercomcdn.com; frame-src https://www.intercom.com"
         }
       ]
     }

@@ -60,12 +60,17 @@ const faqSchema = {
         Frequently Asked Questions
       </h2>
 
-      <div class="space-y-6">
+      <div class="space-y-4">
         {faqs.map((faq) => (
-          <div class="bg-white rounded-lg p-6 border border-terrain-200">
-            <h3 class="font-semibold text-terrain-900">{faq.question}</h3>
-            <p class="mt-2 text-terrain-700">{faq.answer}</p>
-          </div>
+          <details class="group bg-white rounded-lg border border-terrain-200">
+            <summary class="flex items-center justify-between p-6 cursor-pointer list-none font-semibold text-terrain-900 hover:bg-terrain-50 rounded-lg transition-colors">
+              {faq.question}
+              <svg class="w-5 h-5 text-terrain-500 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </summary>
+            <p class="px-6 pb-6 text-terrain-700">{faq.answer}</p>
+          </details>
         ))}
       </div>
     </div>
