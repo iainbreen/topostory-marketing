@@ -49,7 +49,7 @@ const features = [
       {features.map((feature) => (
         <div class="bg-white rounded-xl p-6 shadow-sm border border-terrain-100">
           <div class="w-12 h-12 rounded-lg bg-forest-100 flex items-center justify-center mb-4">
-            <svg class="w-6 h-6 text-forest-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" set:html={feature.icon} />
+            <svg class="w-6 h-6 text-forest-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-label={feature.title} role="img" set:html={feature.icon} />
           </div>
           <h3 class="text-lg font-semibold text-terrain-900">{feature.title}</h3>
           <p class="mt-2 text-terrain-600">{feature.description}</p>

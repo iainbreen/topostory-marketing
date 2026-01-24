@@ -12,6 +12,7 @@
     "test:headed": "playwright test --headed"
   },
   "dependencies": {
+    "@astrojs/sitemap": "^3.7.0",
     "@astrojs/tailwind": "^5.1.4",
     "@astrojs/vercel": "^8.0.4",
     "astro": "^5.1.6",

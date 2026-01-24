@@ -32,7 +32,7 @@
         <div class="aspect-[4/5] rounded-2xl bg-gradient-to-br from-terrain-100 to-terrain-200 shadow-2xl overflow-hidden border border-terrain-200">
           <div class="absolute inset-0 flex items-center justify-center">
             <div class="text-center p-8">
-              <svg class="w-24 h-24 mx-auto text-terrain-400 mb-4" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg class="w-24 h-24 mx-auto text-terrain-400 mb-4" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Topographical map icon showing elevation lines and waypoints" role="img">
                 <path d="M4 24L10 12L16 18L22 8L28 16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 <path d="M4 28H28" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                 <circle cx="8" cy="18" r="1.5" fill="currentColor"/>
@@ -43,7 +43,7 @@
             </div>
           </div>
           <!-- Contour line decoration -->
-          <svg class="absolute inset-0 w-full h-full opacity-20" preserveAspectRatio="none">
+          <svg class="absolute inset-0 w-full h-full opacity-20" preserveAspectRatio="none" aria-hidden="true">
             <defs>
               <pattern id="contours" patternUnits="userSpaceOnUse" width="100" height="20">
                 <path d="M0 10 Q25 0 50 10 T100 10" fill="none" stroke="currentColor" stroke-width="1" class="text-terrain-500"/>
