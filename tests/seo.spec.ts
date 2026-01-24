@@ -205,10 +205,15 @@ test.describe('SEO & Meta Tags', () => {
       for (const path of publicPages) {
         await page.goto(path);
 
-        const robots = await page.getAttribute('meta[name="robots"]', 'content');
-        if (robots) {
-          expect(robots).not.toContain('noindex');
+        const robotsMeta = page.locator('meta[name="robots"]');
+        const count = await robotsMeta.count();
+        if (count > 0) {
+          const robots = await robotsMeta.getAttribute('content');
+          if (robots) {
+            expect(robots).not.toContain('noindex');
+          }
         }
+        // If no robots meta tag exists, page is indexable by default
       }
     });
   });
