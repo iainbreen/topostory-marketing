@@ -2,7 +2,9 @@
 
 ## Implementation Status
 
-### Completed
+All SEO improvements for the marketing site have been completed.
+
+### Technical SEO
 
 | Item | Status | File(s) |
 |------|--------|---------|
@@ -17,48 +19,34 @@
 | HSTS security header | Done | `vercel.json` |
 | OG preview image | Done | `public/images/og-image.jpg` (1200x630px) |
 
-### Remaining Action Items
+### Google Search Console
 
-None - all SEO improvements have been implemented.
-
----
-
-## Google Search Console Setup
-
-After deploying these changes, complete the following:
-
-### 1. Verify Domain Ownership
-- Go to [Google Search Console](https://search.google.com/search-console)
-- Add property: `https://www.topostory.com`
-- Recommended: Use DNS TXT record verification (via your domain registrar)
-- Alternative: HTML file upload to `public/` directory
-
-### 2. Submit Sitemap
-- Go to Sitemaps section
-- Submit: `https://www.topostory.com/sitemap-index.xml`
-
-### 3. Request Indexing
-- Use URL Inspection tool
-- Submit key pages: `/`, `/features`, `/pricing`
-
-### 4. Configure Settings
-- Set preferred domain version (www)
-- Set target country if relevant (Ireland)
-- Review Core Web Vitals report after indexing
+| Item | Status | Notes |
+|------|--------|-------|
+| Domain verification | Done | Domain property for `topostory.com` (covers www + app subdomains) |
+| Sitemap submitted | Done | `https://www.topostory.com/sitemap-index.xml` |
+| Indexing requested | Done | Home, features, and pricing pages |
 
 ---
 
 ## Verification Checklist
 
-After deployment, verify:
-
-- [ ] `https://www.topostory.com/robots.txt` is accessible
-- [ ] `https://www.topostory.com/sitemap-index.xml` lists all pages
-- [ ] View page source shows canonical, OG, and Twitter meta tags
-- [ ] 404 page displays correctly for invalid URLs
+- [x] `https://www.topostory.com/robots.txt` is accessible
+- [x] `https://www.topostory.com/sitemap-index.xml` lists all pages
+- [x] View page source shows canonical, OG, and Twitter meta tags
+- [x] 404 page displays correctly for invalid URLs
 - [ ] [Google Rich Results Test](https://search.google.com/test/rich-results) validates structured data
 - [ ] [opengraph.xyz](https://www.opengraph.xyz/) shows correct social preview
 - [ ] Lighthouse SEO score is 90+
+
+---
+
+## Monitoring
+
+Check Google Search Console periodically for:
+- **Coverage** → Verify all pages are indexed
+- **Performance** → Search queries and clicks (data populates after ~1 week)
+- **Core Web Vitals** → Page speed metrics
 
 ---
 
@@ -69,3 +57,4 @@ After deployment, verify:
 - Add FAQ schema to pricing page for rich snippets
 - Add breadcrumb schema
 - Consider `@astrojs/image` for image optimization
+- Add sitemap for `app.topostory.com`

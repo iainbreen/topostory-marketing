@@ -50,6 +50,9 @@ const ogImage = new URL('/images/og-image.jpg', Astro.site);
       "description": "Create beautiful topographical maps of your favourite trails. Perfect for printing and framing."
     })} />
 
+    <!-- Page-specific head content -->
+    <slot name="head" />
+
     <!-- PostHog Analytics + Intercom Support (consent-aware) -->
     <script is:inline define:vars={{
       posthogKey: import.meta.env.PUBLIC_POSTHOG_KEY,
