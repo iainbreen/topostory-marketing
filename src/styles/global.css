@@ -1,6 +1,36 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  /* Terrain palette (browns) */
+  --color-terrain-50: #f8f7f4;
+  --color-terrain-100: #efe9de;
+  --color-terrain-200: #e0d5c3;
+  --color-terrain-300: #cdb99f;
+  --color-terrain-400: #b89a7a;
+  --color-terrain-500: #a98262;
+  --color-terrain-600: #9c7156;
+  --color-terrain-700: #825c49;
+  --color-terrain-800: #6b4d40;
+  --color-terrain-900: #584136;
+  --color-terrain-950: #2f211b;
+
+  /* Forest palette (greens) */
+  --color-forest-50: #f4f9f4;
+  --color-forest-100: #e5f3e7;
+  --color-forest-200: #cce6d0;
+  --color-forest-300: #a3d1ac;
+  --color-forest-400: #72b580;
+  --color-forest-500: #4f985e;
+  --color-forest-600: #3c7b49;
+  --color-forest-700: #32623c;
+  --color-forest-800: #2b4f33;
+  --color-forest-900: #25412c;
+  --color-forest-950: #102316;
+
+  /* Custom fonts */
+  --font-display: Georgia, Cambria, serif;
+  --font-body: system-ui, -apple-system, sans-serif;
+}
 
 @layer base {
   html {
