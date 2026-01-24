@@ -42,7 +42,7 @@ const plans = [
       <h2 class="text-3xl sm:text-4xl font-display font-bold text-terrain-900">
         Simple, transparent pricing
       </h2>
-      <p class="mt-4 text-lg text-terrain-600 max-w-2xl mx-auto">
+      <p class="mt-4 text-lg text-terrain-700 max-w-2xl mx-auto">
         Start for free, upgrade when you need more.
       </p>
     </div>
@@ -53,7 +53,7 @@ const plans = [
           <h3 class={`text-xl font-semibold ${plan.featured ? 'text-white' : 'text-terrain-900'}`}>
             {plan.name}
           </h3>
-          <p class={`mt-2 ${plan.featured ? 'text-forest-100' : 'text-terrain-600'}`}>
+          <p class={`mt-2 ${plan.featured ? 'text-white' : 'text-terrain-700'}`}>
             {plan.description}
           </p>
 
@@ -62,12 +62,12 @@ const plans = [
               &euro;{plan.price}
             </span>
             {plan.period && (
-              <span class={plan.featured ? 'text-forest-200' : 'text-terrain-500'}>
+              <span class={plan.featured ? 'text-white' : 'text-terrain-700'}>
                 {plan.period}
               </span>
             )}
             {plan.yearlyPrice && (
-              <p class={`text-sm mt-1 ${plan.featured ? 'text-forest-200' : 'text-terrain-500'}`}>
+              <p class={`text-sm mt-1 ${plan.featured ? 'text-white' : 'text-terrain-700'}`}>
                 or &euro;{plan.yearlyPrice}/year (save 17%)
               </p>
             )}
@@ -76,10 +76,10 @@ const plans = [
           <ul class="mt-8 space-y-4">
             {plan.features.map((feature) => (
               <li class="flex items-start gap-3">
-                <svg class={`w-5 h-5 flex-shrink-0 mt-0.5 ${plan.featured ? 'text-forest-200' : 'text-forest-600'}`} fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <svg class={`w-5 h-5 flex-shrink-0 mt-0.5 ${plan.featured ? 'text-white/70' : 'text-forest-600'}`} fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                 </svg>
-                <span class={plan.featured ? 'text-forest-100' : 'text-terrain-700'}>
+                <span class={plan.featured ? 'text-white' : 'text-terrain-700'}>
                   {feature}
                 </span>
               </li>
