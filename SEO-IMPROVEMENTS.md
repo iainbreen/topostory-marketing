@@ -15,12 +15,11 @@
 | Custom 404 page | Done | `src/pages/404.astro` |
 | SVG accessibility (aria-labels) | Done | `src/components/Hero.astro`, `src/components/Features.astro` |
 | HSTS security header | Done | `vercel.json` |
+| OG preview image | Done | `public/images/og-image.jpg` (1200x630px) |
 
 ### Remaining Action Items
 
-1. **Add OG preview image** - Create and add `public/images/og-image.jpg` (1200x630px recommended)
-   - Meta tags are in place pointing to `/images/og-image.jpg`
-   - Social sharing will work once image is added
+None - all SEO improvements have been implemented.
 
 ---
 
@@ -58,7 +57,7 @@ After deployment, verify:
 - [ ] View page source shows canonical, OG, and Twitter meta tags
 - [ ] 404 page displays correctly for invalid URLs
 - [ ] [Google Rich Results Test](https://search.google.com/test/rich-results) validates structured data
-- [ ] [opengraph.xyz](https://www.opengraph.xyz/) shows correct social preview (after adding og-image.jpg)
+- [ ] [opengraph.xyz](https://www.opengraph.xyz/) shows correct social preview
 - [ ] Lighthouse SEO score is 90+
 
 ---
