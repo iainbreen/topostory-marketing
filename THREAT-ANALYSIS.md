@@ -1,5 +1,6 @@
 # TopoStory Marketing Site - Pre-Launch Threat Analysis
 
+**Version:** 1.0
 **Date:** January 2026
 **Scope:** www.topostory.com (Marketing Site)
 **Related:** app.topostory.com (Main Application - separate repo)
@@ -21,8 +22,8 @@ The marketing site itself has a minimal attack surface due to its static nature.
 1. [Architecture Overview](#1-architecture-overview)
 2. [Security Vulnerabilities](#2-security-vulnerabilities)
 3. [Abuse Vectors](#3-abuse-vectors)
-4. [Cost & Overspend Risks](#4-cost--overspend-risks)
-5. [Privacy & Compliance Risks](#5-privacy--compliance-risks)
+4. [Cost and Overspend Risks](#4-cost-and-overspend-risks)
+5. [Privacy and Compliance Risks](#5-privacy-and-compliance-risks)
 6. [Infrastructure Risks](#6-infrastructure-risks)
 7. [Third-Party Dependency Risks](#7-third-party-dependency-risks)
 8. [Business Logic Risks](#8-business-logic-risks)
@@ -34,26 +35,26 @@ The marketing site itself has a minimal attack surface due to its static nature.
 ## 1. Architecture Overview
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                         USERS                                    │
-└─────────────────────────┬───────────────────────────────────────┘
-                          │
-                          ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    Vercel Edge Network                           │
-│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐  │
-│  │ www.topostory   │  │  Rewrites/Proxy │  │   SSL/CDN       │  │
-│  │     .com        │  │  /__clerk/*     │  │                 │  │
-│  │                 │  │  /t/*           │  │                 │  │
-│  └─────────────────┘  └─────────────────┘  └─────────────────┘  │
-└─────────────────────────┬───────────────────────────────────────┘
-                          │
-          ┌───────────────┼───────────────┐
-          ▼               ▼               ▼
-    ┌──────────┐    ┌──────────┐    ┌──────────┐
-    │ PostHog  │    │ Intercom │    │  Clerk   │
-    │ (EU)     │    │          │    │ (proxy)  │
-    └──────────┘    └──────────┘    └──────────┘
+┌───────────────────────────────────────────────────────────────┐
+│                            USERS                              │
+└───────────────────────────────┬───────────────────────────────┘
+                                │
+                                ▼
+┌───────────────────────────────────────────────────────────────┐
+│                      Vercel Edge Network                      │
+│  ┌─────────────────┐  ┌─────────────────┐  ┌───────────────┐  │
+│  │  www.topostory  │  │  Rewrites/Proxy │  │    SSL/CDN    │  │
+│  │      .com       │  │   /__clerk/*    │  │               │  │
+│  │                 │  │   /t/*          │  │               │  │
+│  └─────────────────┘  └─────────────────┘  └───────────────┘  │
+└───────────────────────────────┬───────────────────────────────┘
+                                │
+            ┌───────────────────┼───────────────────┐
+            ▼                   ▼                   ▼
+      ┌──────────┐        ┌──────────┐        ┌──────────┐
+      │ PostHog  │        │ Intercom │        │  Clerk   │
+      │   (EU)   │        │          │        │ (proxy)  │
+      └──────────┘        └──────────┘        └──────────┘
 ```
 
 **Key Characteristics:**
@@ -95,11 +96,11 @@ document.cookie = `${COOKIE_NAME}=${value}${domainPart}; path=/; max-age=${maxAg
 |-----------|--------|-------|
 | Secure | ✅ Set | Only sent over HTTPS |
 | SameSite | ✅ Lax | Protects against CSRF |
-| HttpOnly | ❌ Missing | Cookie readable by JavaScript |
+| HttpOnly | ⚠️ Not Set | Required for client-side consent management |
 | Domain | ⚠️ `.topostory.com` | Shared across all subdomains |
 
 **Risks:**
-1. **Cookie tampering**: Since `HttpOnly` is not set, any XSS on any subdomain could read/modify consent state
+1. **Cookie tampering**: Since `HttpOnly` is not set, any XSS on any subdomain could read/modify consent state. Note: `HttpOnly` cannot be used here because JavaScript must read the cookie to conditionally load analytics/marketing scripts - this is an inherent tradeoff for client-side consent management.
 2. **Subdomain takeover**: If any `*.topostory.com` subdomain is compromised, attacker gains cookie access
 3. **Cookie injection**: Malicious subdomains could set cookies that override legitimate ones
 
@@ -203,7 +204,7 @@ Vercel provides:
 
 ---
 
-## 4. Cost & Overspend Risks
+## 4. Cost and Overspend Risks
 
 ### 4.1 PostHog Costs - HIGH RISK
 
@@ -279,7 +280,7 @@ Vercel provides:
 
 ---
 
-## 5. Privacy & Compliance Risks
+## 5. Privacy and Compliance Risks
 
 ### 5.1 GDPR Compliance - GENERALLY COMPLIANT
 
@@ -307,7 +308,7 @@ Vercel provides:
 
 4. **Cookie Policy**
    - Privacy page mentions cookies but lacks detailed cookie inventory
-   - Consider adding specific cookie names, durations, purposes
+   - See [Appendix D: Cookie Inventory](#appendix-d-cookie-inventory) for the full list to add to privacy policy
 
 ### 5.2 Cross-Subdomain Data Sharing
 
@@ -635,27 +636,59 @@ Add to `vercel.json`:
 ## Appendix C: Threat Model Diagram
 
 ```
-┌────────────────────────────────────────────────────────────────────────────┐
-│                              THREAT ACTORS                                  │
-├─────────────────┬────────────────┬─────────────────┬──────────────────────┤
-│   Competitors   │    Scrapers    │    Spammers     │   Script Kiddies     │
-└────────┬────────┴───────┬────────┴────────┬────────┴──────────┬───────────┘
-         │                │                 │                   │
-         ▼                ▼                 ▼                   ▼
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                            ATTACK VECTORS                                    │
-├─────────────────┬────────────────┬─────────────────┬───────────────────────┤
-│ Content Scraping│ Bot Traffic    │ Intercom Spam   │ Analytics Injection   │
-│ Price Intel     │ Inflate Stats  │ Support Abuse   │ Data Pollution        │
-└─────────────────┴────────────────┴─────────────────┴───────────────────────┘
+┌───────────────────────────────────────────────────────────────────────────┐
+│                             THREAT ACTORS                                 │
+├─────────────────┬─────────────────┬─────────────────┬─────────────────────┤
+│   Competitors   │    Scrapers     │    Spammers     │   Script Kiddies    │
+└────────┬────────┴────────┬────────┴────────┬────────┴──────────┬──────────┘
+         │                 │                 │                   │
+         ▼                 ▼                 ▼                   ▼
+┌───────────────────────────────────────────────────────────────────────────┐
+│                             ATTACK VECTORS                                │
+├─────────────────┬─────────────────┬─────────────────┬─────────────────────┤
+│ Content Scraping│   Bot Traffic   │  Intercom Spam  │ Analytics Injection │
+│   Price Intel   │  Inflate Stats  │  Support Abuse  │   Data Pollution    │
+└─────────────────┴─────────────────┴─────────────────┴─────────────────────┘
                                     │
                                     ▼
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                              ASSETS AT RISK                                  │
-├─────────────────┬────────────────┬─────────────────┬───────────────────────┤
-│ Brand/Reputation│ Service Costs  │ Analytics Data  │ User Trust/Privacy    │
-└─────────────────┴────────────────┴─────────────────┴───────────────────────┘
+┌───────────────────────────────────────────────────────────────────────────┐
+│                             ASSETS AT RISK                                │
+├─────────────────┬─────────────────┬─────────────────┬─────────────────────┤
+│ Brand/Reputation│  Service Costs  │  Analytics Data │  User Trust/Privacy │
+└─────────────────┴─────────────────┴─────────────────┴─────────────────────┘
 ```
+
+---
+
+## Appendix D: Cookie Inventory
+
+The following cookies are used by the marketing site. This inventory should be referenced when updating the privacy policy.
+
+### First-Party Cookies
+
+| Cookie Name | Purpose | Duration | Category |
+|-------------|---------|----------|----------|
+| `topostory_consent` | Stores user's cookie consent preferences (analytics/marketing) | 1 year | Essential |
+
+### Third-Party Cookies (with consent)
+
+#### PostHog (Analytics) - Requires analytics consent
+
+| Cookie Name | Purpose | Duration | Category |
+|-------------|---------|----------|----------|
+| `ph_phc_*_posthog` | Distinct user ID for analytics | 1 year | Analytics |
+| `ph_*_initial_person_info` | Initial visitor info | Session | Analytics |
+| `ph_*_initial_referrer_info` | Referrer tracking | Session | Analytics |
+
+#### Intercom (Marketing) - Requires marketing consent
+
+| Cookie Name | Purpose | Duration | Category |
+|-------------|---------|----------|----------|
+| `intercom-id-*` | Anonymous visitor identifier | 9 months | Marketing |
+| `intercom-session-*` | Session identifier for chat | 1 week | Marketing |
+| `intercom-device-id-*` | Device tracking | 9 months | Marketing |
+
+**Note:** Cookie names with `*` contain dynamic identifiers (app IDs, project keys).
 
 ---
 
