@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 
-const lastUpdated = '20 January 2026';
+const lastUpdated = '24 January 2026';
 ---
 
 <BaseLayout
@@ -88,7 +88,8 @@ const lastUpdated = '20 January 2026';
             <h2 class="text-2xl font-display font-bold text-terrain-900 mb-4">Analytics and Tracking</h2>
             <p class="text-terrain-600 leading-relaxed mb-4">
               We use PostHog for analytics to understand how users interact with our service.
-              This helps us improve the product and user experience. PostHog may collect:
+              This helps us improve the product and user experience. Analytics data is processed
+              in the European Union (Frankfurt). PostHog may collect:
             </p>
             <ul class="list-disc pl-6 text-terrain-600 space-y-2">
               <li>Page views and navigation patterns</li>
@@ -97,8 +98,9 @@ const lastUpdated = '20 January 2026';
               <li>Device and browser characteristics</li>
             </ul>
             <p class="text-terrain-600 leading-relaxed mt-4">
-              You can opt out of analytics tracking by enabling "Do Not Track" in your browser
-              or by contacting us directly.
+              You can opt out of analytics tracking using the cookie consent banner when you
+              first visit our site, or by updating your preferences via the "Cookie Settings"
+              link in the footer at any time.
             </p>
           </div>
 
@@ -167,11 +169,23 @@ const lastUpdated = '20 January 2026';
 
           <div>
             <h2 class="text-2xl font-display font-bold text-terrain-900 mb-4">Cookies</h2>
-            <p class="text-terrain-600 leading-relaxed">
+            <p class="text-terrain-600 leading-relaxed mb-4">
               We use cookies and similar technologies to maintain your session, remember your
-              preferences, and analyze usage patterns. You can control cookies through your
-              browser settings, though some features may not function properly if cookies
-              are disabled.
+              preferences, and analyze usage patterns. When you first visit our site, you will
+              see a cookie consent banner where you can choose which types of cookies to accept.
+            </p>
+            <p class="text-terrain-600 leading-relaxed mb-4">
+              We use the following categories of cookies:
+            </p>
+            <ul class="list-disc pl-6 text-terrain-600 space-y-2">
+              <li><strong>Essential:</strong> Required for the site to function (e.g., consent preferences)</li>
+              <li><strong>Analytics:</strong> Help us understand how visitors use our site (PostHog)</li>
+              <li><strong>Marketing:</strong> Enable customer support chat functionality (Intercom)</li>
+            </ul>
+            <p class="text-terrain-600 leading-relaxed mt-4">
+              You can update your cookie preferences at any time using the "Cookie Settings" link
+              in the footer. Note that cookies are shared between www.topostory.com and
+              app.topostory.com to provide a seamless experience across our services.
             </p>
           </div>
 

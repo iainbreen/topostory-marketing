@@ -1,7 +1,8 @@
 # TopoStory Marketing Site - Pre-Launch Threat Analysis
 
-**Version:** 1.1
+**Version:** 1.2
 **Date:** January 2026
+**Last Updated:** 2026-01-24
 **Scope:** www.topostory.com (Marketing Site)
 **Related:** app.topostory.com (Main Application - separate repo)
 
@@ -17,18 +18,47 @@ The marketing site itself has a minimal attack surface due to its static nature.
 
 ---
 
+## Implementation Progress
+
+The following security recommendations have been implemented:
+
+| Date | Commit | Change |
+|------|--------|--------|
+| 2026-01-24 | `ab8aafd` | Security headers added to vercel.json |
+| 2026-01-24 | `ab8aafd` | Removed unused `/__clerk/*` rewrite |
+| 2026-01-24 | `ab8aafd` | Enabled Dependabot for dependency updates |
+| 2026-01-24 | `ab8aafd` | Created incident response runbook (INCIDENT-RESPONSE.md) |
+| 2026-01-24 | `3e14189` | Created initial threat analysis document |
+| 2026-01-23 | `e9cc1da` | Added QA checklist (QA-CHECKLIST.md) |
+| 2026-01-24 | Manual | Vercel bot protection enabled (log-only mode) |
+| 2026-01-24 | Manual | Intercom spam filtering configured |
+| 2026-01-24 | Manual | DNS subdomain audit completed (no changes needed) |
+| 2026-01-24 | Manual | Apex domain redirect configured (topostory.com → www) |
+| 2026-01-24 | Manual | UptimeRobot monitoring configured (www + app) |
+| 2026-01-24 | Manual | Cookie consent verified in all browsers |
+| 2026-01-24 | Manual | PostHog EU region confirmed active |
+
+**Remaining Manual Configuration:**
+- PostHog anomaly alerts (optional)
+- Vercel spending notifications (optional)
+- Review privacy policy for accuracy
+- Document all environment variables
+
+---
+
 ## Table of Contents
 
-1. [Architecture Overview](#1-architecture-overview)
-2. [Security Vulnerabilities](#2-security-vulnerabilities)
-3. [Abuse Vectors](#3-abuse-vectors)
-4. [Cost and Overspend Risks](#4-cost-and-overspend-risks)
-5. [Privacy and Compliance Risks](#5-privacy-and-compliance-risks)
-6. [Infrastructure Risks](#6-infrastructure-risks)
-7. [Third-Party Dependency Risks](#7-third-party-dependency-risks)
-8. [Business Logic Risks](#8-business-logic-risks)
-9. [Recommendations Summary](#9-recommendations-summary)
-10. [Pre-Launch Checklist](#10-pre-launch-checklist)
+1. [Implementation Progress](#implementation-progress)
+2. [Architecture Overview](#1-architecture-overview)
+3. [Security Vulnerabilities](#2-security-vulnerabilities)
+4. [Abuse Vectors](#3-abuse-vectors)
+5. [Cost and Overspend Risks](#4-cost-and-overspend-risks)
+6. [Privacy and Compliance Risks](#5-privacy-and-compliance-risks)
+7. [Infrastructure Risks](#6-infrastructure-risks)
+8. [Third-Party Dependency Risks](#7-third-party-dependency-risks)
+9. [Business Logic Risks](#8-business-logic-risks)
+10. [Recommendations Summary](#9-recommendations-summary)
+11. [Pre-Launch Checklist](#10-pre-launch-checklist)
 
 ---
 
@@ -529,15 +559,15 @@ All links point to `https://app.topostory.com` - hardcoded and safe.
 |---|-------|--------|--------|
 | 4 | Security headers | Add CSP, X-Frame-Options via vercel.json | ✅ Done |
 | 5 | Remove unused rewrite | Remove `/__clerk/*` if not needed | ✅ Done |
-| 6 | Intercom abuse prevention | Configure spam filtering | ⏳ Manual config needed |
-| 7 | DNS audit | Review all subdomain records | ⏳ Manual config needed |
+| 6 | Intercom abuse prevention | Configure spam filtering | ✅ Done |
+| 7 | DNS audit | Review all subdomain records | ✅ Done (no changes needed) |
 
 ### Medium Priority (Within First Month)
 
 | # | Issue | Action | Status |
 |---|-------|--------|--------|
 | 8 | Cookie policy | Add detailed cookie inventory | ✅ Done (Appendix D) |
-| 9 | Monitoring | Set up uptime monitoring | ⏳ Manual config needed |
+| 9 | Monitoring | Set up uptime monitoring | ✅ Done (UptimeRobot) |
 | 10 | Incident response | Document response plan for third-party compromise | ✅ Done (INCIDENT-RESPONSE.md) |
 
 ### Low Priority (Ongoing)
@@ -554,26 +584,28 @@ All links point to `https://app.topostory.com` - hardcoded and safe.
 ### Security
 - [x] Run `npm audit` and fix vulnerabilities
 - [x] Add security headers to vercel.json
-- [ ] Verify HTTPS redirects work
+- [x] Verify HTTPS redirects work
 - [x] Review and remove unnecessary Vercel rewrites
-- [ ] Audit DNS records for unused subdomains
+- [x] Audit DNS records for unused subdomains
+- [x] Enable Vercel bot protection (log-only mode)
+- [x] Configure Intercom spam filtering
 
 ### Cost Controls
-- [ ] Set PostHog billing alerts (50%, 75%, 90%)
-- [ ] Configure PostHog spending cap
-- [ ] Enable PostHog bot detection
+- [x] Set PostHog billing alerts (N/A - free plan)
+- [x] Configure PostHog spending cap (N/A - free plan)
+- [x] Enable PostHog bot detection (enabled by default)
 - [ ] Set Vercel spending notifications
 - [ ] Review Intercom pricing tier
 
 ### Privacy & Compliance
-- [ ] Verify cookie consent works in all browsers
-- [ ] Test "Reject All" truly blocks tracking
+- [x] Verify cookie consent works in all browsers
+- [x] Test "Reject All" truly blocks tracking
 - [ ] Review privacy policy for accuracy
-- [ ] Confirm PostHog EU region is active
+- [x] Confirm PostHog EU region is active
 - [ ] Document data processing activities
 
 ### Monitoring
-- [ ] Set up uptime monitoring (e.g., Better Uptime, Vercel)
+- [x] Set up uptime monitoring (UptimeRobot - www + app)
 - [ ] Configure PostHog anomaly alerts
 - [ ] Enable Vercel deployment notifications
 - [ ] Set up error tracking (optional)
