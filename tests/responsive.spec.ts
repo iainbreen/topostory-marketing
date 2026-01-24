@@ -43,7 +43,7 @@ test.describe('Responsive Design', () => {
     test('CTA buttons are tap-friendly (min 44px)', async ({ page }) => {
       await page.goto('/');
 
-      const ctaButton = page.getByRole('link', { name: 'Get Started Free' });
+      const ctaButton = page.getByRole('link', { name: 'Create Your Map' });
       const box = await ctaButton.boundingBox();
 
       expect(box).not.toBeNull();
@@ -70,8 +70,8 @@ test.describe('Responsive Design', () => {
     test('pricing page renders correctly', async ({ page }) => {
       await page.goto('/pricing');
       await expect(page.getByRole('heading', { level: 1, name: 'Pricing' })).toBeVisible();
-      await expect(page.getByText('Free', { exact: true })).toBeVisible();
-      await expect(page.getByText('Pro')).toBeVisible();
+      await expect(page.getByRole('heading', { name: 'Free', exact: true })).toBeVisible();
+      await expect(page.getByRole('heading', { name: 'Pro', exact: true })).toBeVisible();
     });
 
     test('features page renders correctly', async ({ page }) => {
@@ -99,8 +99,8 @@ test.describe('Responsive Design', () => {
 
     test('pricing cards are visible', async ({ page }) => {
       await page.goto('/pricing');
-      await expect(page.getByText('Free', { exact: true })).toBeVisible();
-      await expect(page.getByText('Pro')).toBeVisible();
+      await expect(page.getByRole('heading', { name: 'Free', exact: true })).toBeVisible();
+      await expect(page.getByRole('heading', { name: 'Pro', exact: true })).toBeVisible();
     });
   });
 
@@ -124,8 +124,8 @@ test.describe('Responsive Design', () => {
 
     test('pricing page shows plans side by side', async ({ page }) => {
       await page.goto('/pricing');
-      await expect(page.getByText('Free', { exact: true })).toBeVisible();
-      await expect(page.getByText('Pro')).toBeVisible();
+      await expect(page.getByRole('heading', { name: 'Free', exact: true })).toBeVisible();
+      await expect(page.getByRole('heading', { name: 'Pro', exact: true })).toBeVisible();
     });
   });
 
@@ -186,10 +186,10 @@ test.describe('Visual Regression Prevention', () => {
     // Wait for page to stabilize
     await page.waitForLoadState('networkidle');
 
-    // Verify key elements are visible and positioned
-    const header = page.locator('header');
-    const hero = page.locator('h1');
-    const footer = page.locator('footer');
+    // Verify key elements are visible and positioned (use specific selectors to avoid Astro dev toolbar)
+    const header = page.getByRole('banner');
+    const hero = page.getByRole('heading', { level: 1, name: /trails/ });
+    const footer = page.getByRole('contentinfo');
 
     await expect(header).toBeVisible();
     await expect(hero).toBeVisible();

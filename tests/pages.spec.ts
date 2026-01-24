@@ -28,7 +28,7 @@ test.describe('Page Loading & Content', () => {
     test('displays hero section', async ({ page }) => {
       await page.goto('/');
       await expect(page.locator('h1')).toBeVisible();
-      await expect(page.getByRole('link', { name: 'Get Started Free' })).toBeVisible();
+      await expect(page.getByRole('link', { name: 'Create Your Map' })).toBeVisible();
     });
 
     test('displays feature cards', async ({ page }) => {
@@ -40,14 +40,14 @@ test.describe('Page Loading & Content', () => {
 
     test('displays map showcase section', async ({ page }) => {
       await page.goto('/');
-      await expect(page.getByText('Choose Your Style')).toBeVisible();
+      await expect(page.getByText('stunning style presets')).toBeVisible();
       // Should show style preview cards
       await expect(page.getByText('Classic')).toBeVisible();
     });
 
     test('displays CTA section', async ({ page }) => {
       await page.goto('/');
-      await expect(page.getByText('Start Creating Today')).toBeVisible();
+      await expect(page.getByText('Ready to create your map?')).toBeVisible();
     });
   });
 
@@ -68,8 +68,8 @@ test.describe('Page Loading & Content', () => {
 
     test('displays core feature sections', async ({ page }) => {
       await page.goto('/features');
-      await expect(page.getByText('GPX Import')).toBeVisible();
-      await expect(page.getByText('Elevation Data')).toBeVisible();
+      await expect(page.getByText('Import any GPX file')).toBeVisible();
+      await expect(page.getByText('Accurate elevation contours')).toBeVisible();
     });
   });
 
@@ -91,12 +91,12 @@ test.describe('Page Loading & Content', () => {
     test('displays Free plan', async ({ page }) => {
       await page.goto('/pricing');
       await expect(page.getByText('Free', { exact: true })).toBeVisible();
-      await expect(page.getByText('3 exports per month')).toBeVisible();
+      await expect(page.getByText('3 map exports per month')).toBeVisible();
     });
 
     test('displays Pro plan', async ({ page }) => {
       await page.goto('/pricing');
-      await expect(page.getByText('Pro')).toBeVisible();
+      await expect(page.getByRole('heading', { name: 'Pro', exact: true })).toBeVisible();
       await expect(page.getByText('€3.50')).toBeVisible();
     });
 
