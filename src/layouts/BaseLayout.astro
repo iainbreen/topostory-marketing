@@ -74,6 +74,21 @@ const ogImage = new URL(customOgImage || '/images/og-image.jpg', Astro.site);
         }
       }
 
+      // Capture UTM parameters immediately (before consent)
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const utmParams = {};
+        ['source', 'medium', 'campaign', 'term', 'content'].forEach(function(param) {
+          const value = urlParams.get('utm_' + param);
+          if (value) utmParams['utm_' + param] = value;
+        });
+        if (Object.keys(utmParams).length > 0) {
+          sessionStorage.setItem('topostory_utm', JSON.stringify(utmParams));
+        }
+      } catch (e) {
+        // Silently fail if sessionStorage is not available
+      }
+
       let posthogInitialized = false;
       let intercomInitialized = false;
 
@@ -87,6 +102,22 @@ const ogImage = new URL(customOgImage || '/images/og-image.jpg', Astro.site);
           cookie_domain: '.topostory.com',
           cross_subdomain_cookie: true
         });
+
+        // Register UTM parameters as super properties (first-touch attribution)
+        try {
+          const storedUTM = sessionStorage.getItem('topostory_utm');
+          if (storedUTM) {
+            const params = JSON.parse(storedUTM);
+            const superProps = {};
+            Object.keys(params).forEach(function(key) {
+              superProps['initial_' + key] = params[key];
+            });
+            posthog.register_once(superProps);
+          }
+        } catch (e) {
+          // Silently fail if sessionStorage is not available
+        }
+
         posthogInitialized = true;
       }
 
@@ -144,6 +175,23 @@ const ogImage = new URL(customOgImage || '/images/og-image.jpg', Astro.site);
         // Track CTA clicks (links to app.topostory.com)
         document.querySelectorAll('a[href*="app.topostory.com"]').forEach(function(el) {
           el.addEventListener('click', function() {
+            // Append UTM parameters to destination URL
+            try {
+              const storedUTM = sessionStorage.getItem('topostory_utm');
+              if (storedUTM) {
+                const params = JSON.parse(storedUTM);
+                const url = new URL(this.href);
+                Object.keys(params).forEach(function(key) {
+                  if (!url.searchParams.has(key)) {
+                    url.searchParams.set(key, params[key]);
+                  }
+                });
+                this.href = url.toString();
+              }
+            } catch (e) {
+              // Continue with original href if URL modification fails
+            }
+
             posthog.capture('cta_clicked', {
               cta_text: this.textContent.trim(),
               cta_location: this.closest('section')?.id || this.closest('header') ? 'header' : 'page',
