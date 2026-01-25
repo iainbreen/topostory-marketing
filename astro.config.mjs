@@ -8,6 +8,7 @@ export default defineConfig({
   adapter: vercel(),
   integrations: [sitemap()],
   site: 'https://www.topostory.com',
+  trailingSlash: 'never',
   vite: {
     plugins: [tailwindcss()],
   },
