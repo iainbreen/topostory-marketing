@@ -40,5 +40,32 @@
       "source": "/t/:path*",
       "destination": "https://eu.i.posthog.com/:path*"
     }
+  ],
+  "redirects": [
+    {
+      "source": "/instagram",
+      "destination": "/?utm_source=instagram&utm_medium=bio",
+      "permanent": false
+    },
+    {
+      "source": "/facebook",
+      "destination": "/?utm_source=facebook&utm_medium=page",
+      "permanent": false
+    },
+    {
+      "source": "/producthunt",
+      "destination": "/?utm_source=producthunt&utm_medium=launch",
+      "permanent": false
+    },
+    {
+      "source": "/twitter",
+      "destination": "/?utm_source=twitter&utm_medium=profile",
+      "permanent": false
+    },
+    {
+      "source": "/press",
+      "destination": "/?utm_source=press&utm_medium=email",
+      "permanent": false
+    }
   ]
 }
