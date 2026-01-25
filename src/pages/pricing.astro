@@ -14,11 +14,23 @@ const faqs = [
   },
   {
     question: "What file formats can I export?",
-    answer: "TopoStory exports maps as SVG (vector) or PNG (raster) files. SVG is recommended for professional printing as it scales to any size without losing quality."
+    answer: "TopoStory exports PNG files optimized for Instagram Posts (1:1 square) and Stories (1080x1920 vertical). Pro users also get high-resolution SVG and PNG files perfect for professional printing at any size."
   },
   {
     question: "Do you offer refunds?",
     answer: "If you're not satisfied with Pro within the first 14 days, contact us for a full refund. No questions asked."
+  },
+  {
+    question: "What's the difference between Free and Pro?",
+    answer: "Free gives you 3 exports per month with 13 core style presets in Instagram formats. Pro unlocks unlimited exports, all current and future style presets, AI-powered POI suggestions for storytelling, and high-resolution print files (SVG/PNG)."
+  },
+  {
+    question: "Do I get AI POI suggestions on the free plan?",
+    answer: "AI-powered Points of Interest (landmarks, viewpoints, historic sites) is a Pro feature. Free users can still create beautiful maps, but won't get AI-researched trail suggestions."
+  },
+  {
+    question: "Will I get access to new styles as they're released?",
+    answer: "New style presets are a Pro feature. Free users have access to 13 core styles, while Pro users get immediate access to all new styles as we release them."
   }
 ];
 
@@ -38,7 +50,7 @@ const faqSchema = {
 
 <BaseLayout
   title="Pricing"
-  description="Simple, transparent pricing for TopoStory. Start free, upgrade when you need more."
+  description="Create Instagram-ready trail maps. Start free with 3 exports/month, upgrade for unlimited exports, AI POI, and print quality."
 >
   <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} slot="head" />
   <section class="pt-12 pb-8 bg-terrain-50">
