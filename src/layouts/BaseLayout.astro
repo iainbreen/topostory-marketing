@@ -12,7 +12,7 @@ interface Props {
 
 const {
   title,
-  description = 'Create beautiful topographical maps of your favourite trails. Perfect for printing and framing.',
+  description = 'Create beautiful topographical trail maps for Instagram Stories and Posts. Share your hiking adventures with stunning visuals.',
   ogImage: customOgImage
 } = Astro.props;
 
@@ -52,7 +52,7 @@ const ogImage = new URL(customOgImage || '/images/og-image.jpg', Astro.site);
       "@type": "Organization",
       "name": "TopoStory",
       "url": "https://www.topostory.com",
-      "description": "Create beautiful topographical maps of your favourite trails. Perfect for printing and framing."
+      "description": "Create beautiful topographical trail maps for Instagram Stories and Posts. Share your hiking adventures with stunning visuals."
     })} />
 
     <!-- Page-specific head content -->
