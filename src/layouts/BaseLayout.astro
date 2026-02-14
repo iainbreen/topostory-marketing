@@ -1,4 +1,5 @@
 ---
+import Analytics from '@vercel/analytics/astro';
 import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
 import CookieBanner from '@/components/CookieBanner.astro';
@@ -57,6 +58,9 @@ const ogImage = new URL(customOgImage || '/images/og-image.jpg', Astro.site);
 
     <!-- Page-specific head content -->
     <slot name="head" />
+
+    <!-- Vercel Web Analytics -->
+    <Analytics />
 
     <!-- PostHog Analytics + Intercom Support (consent-aware) -->
     <script is:inline define:vars={{
