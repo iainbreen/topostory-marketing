@@ -1,0 +1,141 @@
+# Tailwind CSS v4 Migration Plan
+
+## Summary
+Migrate from Tailwind CSS v3.4.17 + @astrojs/tailwind (deprecated) to Tailwind CSS v4 with the native Vite plugin.
+
+## Files to Modify
+
+| File | Action |
+|------|--------|
+| `package.json` | Update dependencies |
+| `astro.config.mjs` | Remove integration, add Vite plugin |
+| `src/styles/global.css` | Rewrite with v4 syntax |
+| `tailwind.config.mjs` | Delete (config moves to CSS) |
+
+## Implementation Steps
+
+### Step 1: Update Dependencies
+```bash
+npm uninstall @astrojs/tailwind tailwindcss
+npm install tailwindcss@^4.0.0 @tailwindcss/vite@^4.0.0
+```
+
+### Step 2: Update `astro.config.mjs`
+
+**Remove:**
+- `import tailwind from '@astrojs/tailwind'`
+- `tailwind()` from integrations array
+
+**Add:**
+```javascript
+import tailwindcss from '@tailwindcss/vite';
+
+// In defineConfig:
+vite: {
+  plugins: [tailwindcss()],
+},
+```
+
+### Step 3: Rewrite `src/styles/global.css`
+
+Replace entire contents with:
+```css
+@import "tailwindcss";
+
+@theme {
+  /* Terrain palette (browns) */
+  --color-terrain-50: #f8f7f4;
+  --color-terrain-100: #efe9de;
+  --color-terrain-200: #e0d5c3;
+  --color-terrain-300: #cdb99f;
+  --color-terrain-400: #b89a7a;
+  --color-terrain-500: #a98262;
+  --color-terrain-600: #9c7156;
+  --color-terrain-700: #825c49;
+  --color-terrain-800: #6b4d40;
+  --color-terrain-900: #584136;
+  --color-terrain-950: #2f211b;
+
+  /* Forest palette (greens) */
+  --color-forest-50: #f4f9f4;
+  --color-forest-100: #e5f3e7;
+  --color-forest-200: #cce6d0;
+  --color-forest-300: #a3d1ac;
+  --color-forest-400: #72b580;
+  --color-forest-500: #4f985e;
+  --color-forest-600: #3c7b49;
+  --color-forest-700: #32623c;
+  --color-forest-800: #2b4f33;
+  --color-forest-900: #25412c;
+  --color-forest-950: #102316;
+
+  /* Custom fonts */
+  --font-display: Georgia, Cambria, serif;
+  --font-body: system-ui, -apple-system, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply font-body text-terrain-900 antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center px-6 py-3 font-medium rounded-lg transition-colors duration-200;
+  }
+
+  .btn-primary {
+    @apply bg-forest-600 text-white hover:bg-forest-700;
+  }
+
+  .btn-secondary {
+    @apply bg-terrain-100 text-terrain-900 hover:bg-terrain-200;
+  }
+
+  .btn-outline {
+    @apply border-2 border-terrain-300 text-terrain-700 hover:border-terrain-400 hover:bg-terrain-50;
+  }
+}
+```
+
+### Step 4: Delete `tailwind.config.mjs`
+
+Config is now in CSS, this file is no longer needed.
+
+## Verification
+
+1. **Build test:**
+   ```bash
+   npm run build
+   ```
+
+2. **Run E2E tests:**
+   ```bash
+   npm run test
+   ```
+   All 281 tests should pass (accessibility, SEO, navigation, responsive, analytics).
+
+3. **Visual checks:**
+   - Button variants render correctly
+   - Custom terrain/forest colors display properly
+   - Header backdrop blur works
+   - Pricing card ring-offset styling intact
+   - Fonts (Georgia for headings, system-ui for body) applied
+
+## Risk Assessment
+
+**Low risk migration:**
+- No custom plugins to migrate
+- No theme() function usage
+- @apply directives still supported in v4
+- Arbitrary values (e.g., `aspect-[4/5]`) unchanged
+- Only 4 files need modification
