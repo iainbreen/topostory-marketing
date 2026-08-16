@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" fill="none">
+  <!-- Stronger gradient background with topographic contours -->
+  <defs>
+    <linearGradient id="bg-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#e5f3e7;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#cce6d0;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <rect width="1080" height="1080" fill="url(#bg-gradient)"/>
+
+  <!-- Topographic contour lines - increased frequency -->
+  <g opacity="0.15" stroke="#3c7b49" stroke-width="1.5" fill="none">
+    <path d="M-50,100 Q200,85 400,100 T800,115 Q1000,108 1150,100"/>
+    <path d="M-50,150 Q200,135 400,150 T800,165 Q1000,158 1150,150"/>
+    <path d="M-50,200 Q200,185 400,200 T800,215 Q1000,208 1150,200"/>
+    <path d="M-50,250 Q200,235 400,250 T800,265 Q1000,258 1150,250"/>
+    <path d="M-50,300 Q200,285 400,300 T800,315 Q1000,308 1150,300"/>
+    <path d="M-50,350 Q200,335 400,350 T800,365 Q1000,358 1150,350"/>
+    <path d="M-50,400 Q200,385 400,400 T800,415 Q1000,408 1150,400"/>
+    <path d="M-50,450 Q200,435 400,450 T800,465 Q1000,458 1150,450"/>
+    <path d="M-50,500 Q200,485 400,500 T800,515 Q1000,508 1150,500"/>
+    <path d="M-50,550 Q200,535 400,550 T800,565 Q1000,558 1150,550"/>
+    <path d="M-50,600 Q200,585 400,600 T800,615 Q1000,608 1150,600"/>
+    <path d="M-50,650 Q200,635 400,650 T800,665 Q1000,658 1150,650"/>
+    <path d="M-50,700 Q200,685 400,700 T800,715 Q1000,708 1150,700"/>
+    <path d="M-50,750 Q200,735 400,750 T800,765 Q1000,758 1150,750"/>
+    <path d="M-50,800 Q200,785 400,800 T800,815 Q1000,808 1150,800"/>
+    <path d="M-50,850 Q200,835 400,850 T800,865 Q1000,858 1150,850"/>
+    <path d="M-50,900 Q200,885 400,900 T800,915 Q1000,908 1150,900"/>
+    <path d="M-50,950 Q200,935 400,950 T800,965 Q1000,958 1150,950"/>
+    <path d="M-50,1000 Q200,985 400,1000 T800,1015 Q1000,1008 1150,1000"/>
+  </g>
+
+  <!-- Centered logo icon -->
+  <g transform="translate(540, 430)">
+    <path d="M-280,-120 L-160,-360 L-40,-240 L80,-440 L200,-280" stroke="#3c7b49" stroke-width="55" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M-280,-40 L200,-40" stroke="#3c7b49" stroke-width="55" stroke-linecap="round"/>
+  </g>
+
+  <!-- TopoStory text with display font -->
+  <text x="540" y="680" font-family="Georgia, Cambria, serif" font-size="100" font-weight="700" fill="#584136" text-anchor="middle" letter-spacing="-1">TopoStory</text>
+</svg>
